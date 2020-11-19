@@ -1,6 +1,6 @@
 const config = {
   host: "localhost",
-  database: "runoobdb",
+  database: "bridgedb",
   user: "postgres",
   password: "123456",
 
@@ -12,14 +12,14 @@ const config = {
   chainID: "Binance-Chain-Ganges",
   nodeData: "data-seed-pre-2-s1.binance.org:80",
   nodeHTTPS: "https://seed-pre-s3.binance.org:443",
-  keyPrepend: "BNB_",
+  keyPrepend: "ST_",
   list_proposal_deposit: "200000000000",
   prefix: 'tbnb',
   network: 'testnet',
 
   //Ethereum
   provider: 'https://ropsten.infura.io/v3/7e1994c8834b4c61814e608fbb640810',
-
+  BSCprovider: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
 
   erc20ABI: [
   	{

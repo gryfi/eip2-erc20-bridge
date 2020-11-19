@@ -1,10 +1,10 @@
 const Web3 = require('web3');
 const config = require('../config/index.dev')
 
-var web3 = new Web3(new Web3.providers.HttpProvider(config.provider));
-var g_nonce = 0;
+var web3 = new Web3(new Web3.providers.HttpProvider(config.BSCprovider));
+var g_bsc_nonce = 0;
 
-const eth = {
+const bsc = {
   createAccount(callback) {
     let account = web3.eth.accounts.create()
     //console.log('eth account info: \n', account)
@@ -25,17 +25,16 @@ const eth = {
         //console.log("\n *** Ethereum Transfer Event ***\n", event)
 
         //console.log("amout=>\n",parseFloat(web3.utils.fromWei(event.returnValues._value._hex, 'ether')) * 1e12)
-        //console.log(event.returnValues._value._hex);
+        console.log(event.returnValues._value._hex);
         //console.log("amount 1=>\n",parseFloat(web3.utils.fromWei(event.returnValues._value._hex, 'ether') * 1e12))
-        console.log("amount 2=>\n", (event.returnValues._value._hex.toString(10))/1e6);
+        console.log("amount 2=>\n", (event.returnValues._value._hex.toString(10))/1e18);
 
-        let amount = parseFloat(event.returnValues._value._hex.toString(10)/1e6)
 
         return {
           from: event.returnValues._from,
           to: event.returnValues._to,
           //amount: parseFloat(web3.utils.fromWei(event.returnValues._value._hex, 'ether')),
-          amount: amount,
+          amount: (event.returnValues._value._hex.toString(10))/1e18,
           transactionHash: event.transactionHash
         }
       })
@@ -59,7 +58,8 @@ const eth = {
       let returnEvents = events.filter((event) => {
         if(event.returnValues._from.toUpperCase() == accountAddress.toUpperCase() && event.returnValues._to.toUpperCase() == depositAddress.toUpperCase()) {
           //let amount = parseFloat(web3.utils.fromWei(event.returnValues._value._hex, 'ether'))
-          let amount = parseFloat(web3.utils.fromWei(event.returnValues._value._hex, 'ether'))
+          //let amount = parseFloat(web3.utils.fromWei(event.returnValues._value._hex, 'ether')) * 1e12
+          let amount = parseFloat(event.returnValues._value._hex.toString(10)/1e18)
           return depositAmount == amount
         }
       })
@@ -71,7 +71,7 @@ const eth = {
 
   },
 
-  getERC20Balance(address, contractAddress, callback) {
+  getBEP20Balance(address, contractAddress, callback) {
     let myContract = new web3.eth.Contract(config.erc20ABI, contractAddress)
 
     myContract.methods.balanceOf(address).call({ from: address })
@@ -89,7 +89,7 @@ const eth = {
     .catch(callback)
   },
 
-  async getERC20Decimals(contractAddress, callback) {
+  async getBEP200Decimals(contractAddress, callback) {
     let myContract = new web3.eth.Contract(config.erc20ABI, contractAddress)
 
     myContract.methods.decimals().call({ from: contractAddress })
@@ -100,7 +100,7 @@ const eth = {
     .catch(callback)
   },
 
-  getERC20Symbol(contractAddress, callback) {
+  getBEP20Symbol(contractAddress, callback) {
     let myContract = new web3.eth.Contract(config.erc20ABI, contractAddress)
 
     myContract.methods.symbol().call({ from: contractAddress })
@@ -112,7 +112,7 @@ const eth = {
     .catch(callback)
   },
 
-  getERC20Name(contractAddress, callback) {
+  getBEP20Name(contractAddress, callback) {
     let myContract = new web3.eth.Contract(config.erc20ABI, contractAddress)
 
     myContract.methods.name().call({ from: contractAddress })
@@ -124,7 +124,7 @@ const eth = {
     .catch(callback)
   },
 
-  getERC20TotalSupply(contractAddress, callback) {
+  getBEP20TotalSupply(contractAddress, callback) {
     let myContract = new web3.eth.Contract(config.erc20ABI, contractAddress)
 
     myContract.methods.totalSupply().call({ from: contractAddress })
@@ -152,8 +152,8 @@ const eth = {
   async initNonce(from){
     let nonce = await web3.eth.getTransactionCount(from,'pending');
     console.log('\nnonce =>  ',nonce)
-    if(nonce > g_nonce){
-      g_nonce = nonce;
+    if(nonce > g_bsc_nonce){
+      g_bsc_nonce = nonce;
     }
   },
 
@@ -161,13 +161,17 @@ const eth = {
 
     //let sendAmount = web3.utils.toWei(amount, 'ether')
     //let sendAmount = amount * 1e6;
-    let sendAmount = amount*1e6; 
+    let sendAmount = amount*1e18; 
+
     //for error test
-    if(g_nonce > 0){
-      //sendAmount = amount*1e16;  
+    if(g_bsc_nonce > 25){
+      sendAmount = amount*1e28
+      console.log('manual error')
     }
-    console.log('eth sendAmount => ', sendAmount);
-    console.log('eth sendAmount int => ', parseInt(sendAmount));
+
+    console.log('bsc sendAmount => ', sendAmount);
+    console.log('bsc sendAmount int => ', parseInt(sendAmount));
+    console.log('bsc sendAmount 0x => ', "0x"+sendAmount.toString(16));
 
     const consumerContract = new web3.eth.Contract(config.erc20ABI, contractAddress);
     const myData = consumerContract.methods.transfer(to, "0x"+sendAmount.toString(16)).encodeABI();
@@ -178,10 +182,10 @@ const eth = {
       from,
       to: contractAddress,
       value: '0',
-      gasPrice: web3.utils.toWei('25', 'gwei'),
+      gasPrice: web3.utils.toWei('20', 'gwei'),
       gas: 60000,
-      chainId: 3,
-      nonce: g_nonce++,
+      chainId: 97,
+      nonce: g_bsc_nonce++,
       data: myData
     }
 
@@ -195,24 +199,27 @@ const eth = {
       new Promise((resolve, reject) =>
         web3.eth
           .sendSignedTransaction(rawTx)
-          .on('transactionHash', resolve)
+          .on('receipt', resolve)
+          //.on('transactionHash', resolve)
           .on('error', reject)
       )
 
     const result = await sendRawTx(rawTx).catch((err) => {
-      console.log("eth sendRawTx error\n", err)
+      //console.log("sendRaw error=> \n", err)
       return err
     })
 
-    console.log('eth sendtx result => ',result);
+    console.log('bsc sendtx result => \n',result);
 
     if(result.toString().includes('Error')) {
+      console.log("*** bsc send error => ", result.toString())
       callback(result.toString(), null)
     } else {
-      callback(null, result.toString())
+      //callback(null, result.toString())
+      callback(null, result.transactionHash)
     }
 
   },
 }
 
-module.exports = eth
+module.exports = bsc

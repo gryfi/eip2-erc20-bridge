@@ -2,7 +2,6 @@ const db = require('../helpers/db.js').db;
 const config = require('../config/index.dev');
 const bnb = require('../helpers/bnb.js');
 const eth = require('../helpers/eth.js');
-const bsc = require('../helpers/bsc.js');
 const emailer = require('../helpers/emailer.js');
 const async = require('async');
 const generator = require('generate-password');
@@ -12,13 +11,11 @@ const bip39 = require('bip39');
 const Web3 = require('web3');
 const algorithm = 'aes-256-ctr';
 const KEY = 'witness canyon foot sing song tray task defense float bottom town obvious faint globe door tonight alpha battle purse jazz flag author choose whisper';
-const IV = ''
 
 const models = {
 
   encrypt(text, password){
     var cipher = crypto.createCipher(algorithm,password)
-    //var cipher = crypto.createCipheriv(algorithm,password,iv=IV)
     var crypted = cipher.update(text,'utf8','hex')
     crypted += cipher.final('hex');
     return crypted;
@@ -26,7 +23,6 @@ const models = {
 
   decrypt(text, password){
     var decipher = crypto.createDecipher(algorithm,password)
-    //var decipher = crypto.createDecipheriv(algorithm,password,iv=IV) 
     var dec = decipher.update(text,'hex','utf8')
     dec += decipher.final('utf8');
     return dec;
@@ -57,9 +53,7 @@ const models = {
       direction,
       bnb_address,
       eth_address,
-      bsc_address,
-      token_uuid,
-      bep20_address
+      token_uuid
     } = req.body 
     console.log(req.body)
 
@@ -77,9 +71,7 @@ const models = {
       direction,
       bnb_address,
       eth_address,
-      bsc_address,
-      token_uuid,
-      bep20_address
+      token_uuid
     })
 
   },
@@ -197,8 +189,7 @@ const models = {
 
           async.parallel([
             (callback) => { models.processBNBAccount(data, callback) },
-            (callback) => { models.processEthAccount(data, callback) },
-            (callback) => { models.processBscAccount(data, callback) } 
+            (callback) => { models.processEthAccount(data, callback) }
           ], (err, data) => {
             if(err) {
               console.log(err)
@@ -208,13 +199,8 @@ const models = {
             }
             let bnbUUID = data[0]
             let ethUUID = data[1]
-            let bscUUID = data[2]
-            console.log("bnbUUID",bnbUUID);
-            console.log("ethUUID",ethUUID);
-            console.log("bscUUID",bscUUID);
 
-
-            models.updateTokenAddresses(uuid, bnbUUID, ethUUID, bscUUID, (err, updateResponse) => {
+            models.updateTokenAddresses(uuid, bnbUUID, ethUUID, (err, updateResponse) => {
               models.getTokenInfo(uuid, (err, getResponse) => {
                 if(err) {
                   console.log(err)
@@ -242,8 +228,7 @@ const models = {
       name,
       symbol,
       total_supply,
-      erc20_address,
-      bep20_address
+      erc20_address
     } = body
     if(!name) {
       return 'name is required'
@@ -258,9 +243,6 @@ const models = {
       return 'erc20_address is required'
     }
 
-    if(!bep20_address) {
-      return 'bep20_address is required'
-    }
     return true
   },
 
@@ -270,7 +252,6 @@ const models = {
       symbol,
       total_supply,
       erc20_address,
-      bep20_address,
       mintable
     } = body
 
@@ -278,7 +259,7 @@ const models = {
     //total_supply = total_supply.toFixed(0)
 
 
-    db.oneOrNone('insert into tokens (uuid, name, symbol, total_supply, erc20_address, bep20_address, mintable, eth_to_bnb_enabled, bnb_to_eth_enabled, bsc_to_eth_enabled, eth_to_bsc_enabled, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, $4, $5, $6, true, true, true, true, now()) returning uuid', [name, symbol, total_supply, erc20_address, bep20_address, mintable])
+    db.oneOrNone('insert into tokens (uuid, name, symbol, total_supply, erc20_address, mintable, eth_to_bnb_enabled, bnb_to_eth_enabled, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, $4, $5, true, true, now()) returning uuid', [name, symbol, total_supply, erc20_address, mintable])
     .then((response) => {
       callback(null, response)
     })
@@ -347,45 +328,14 @@ const models = {
     .catch(callback)
   },
 
-  processBscAccount(body, callback) {
-    bsc.createAccount((err, account) => {
-      if(err) {
-        console.log(err)
-        return callback(err)
-      }
-
-      models.insertBscAccount(account, callback)
-    })
-  },
-
-  insertBscAccount(account, callback) {
-    const dbPassword = bip39.generateMnemonic()
-    const password = KEY+':'+dbPassword
-    const aes256private = models.encrypt(account.privateKey, password)
-
-    db.oneOrNone('insert into bsc_accounts (uuid, private_key, address, encr_key, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, now()) returning uuid;', [aes256private, account.address, dbPassword])
-    .then((response) => {
-      callback(null, response)
-    })
-    .catch(callback)
-  },
-
-  updateTokenAddresses(uuid, bnbUUID, ethUUID, bscUUID, callback) {
-    db.none('update tokens set bnb_account_uuid=$1, eth_account_uuid=$2 , bsc_account_uuid=$3 where uuid=$4;', [bnbUUID.uuid, ethUUID.uuid, bscUUID.uuid, uuid])
+  updateTokenAddresses(uuid, bnbUUID, ethUUID, callback) {
+    db.none('update tokens set bnb_account_uuid=$1, eth_account_uuid=$2 where uuid=$3;', [bnbUUID.uuid, ethUUID.uuid, uuid])
     .then(callback)
     .catch(callback)
   },
 
   getTokenInfo(uuid, callback) {
-    db.oneOrNone('select tok.uuid, tok.name, tok.symbol, tok.unique_symbol, tok.total_supply, tok.erc20_address, tok.mintable, tok.fee_per_swap, tok.minimum_swap_amount, \
-    bnb.address as bnb_address, \
-    bsc.address as bsc_address, \
-    eth.address as eth_address \
-    from tokens tok \
-    left join bnb_accounts bnb on bnb.uuid = tok.bnb_account_uuid \
-    left join eth_accounts eth on eth.uuid = tok.eth_account_uuid \
-    left join bsc_accounts bsc on bsc.uuid = tok.bsc_account_uuid \
-    where tok.uuid = $1;',[uuid])
+    db.oneOrNone('select tok.uuid, tok.name, tok.symbol, tok.unique_symbol, tok.total_supply, tok.erc20_address, tok.mintable, tok.fee_per_swap, tok.minimum_swap_amount, bnb.address as bnb_address from tokens tok left join bnb_accounts bnb on bnb.uuid = tok.bnb_account_uuid where tok.uuid = $1;',[uuid])
     .then((token) => {
       callback(null, token)
     })
@@ -648,16 +598,8 @@ const models = {
 
       if(direction === 'EthereumToBinance') {
         models.swapEthereumToBinance(req, res, next, data)
-      } else if(direction === 'BinanceToEthereum') {
+      } else {
         models.swapBinanceToEthereum(req, res, next, data)
-      } else if(direction === 'EthereumToBSC') {
-        models.swapEthereumToBSC(req, res, next, data)
-      } else if(direction === 'BSCToEthereum'){
-        models.swapBSCToEthereum(req, res, next, data)
-      }else{
-        res.status(400)
-        res.body = { 'status': 400, 'success': false, 'result': 'not supported yet.' }
-        return next(null, req, res, next) 
       }
     })
   },
@@ -666,8 +608,7 @@ const models = {
     const {
       direction,
       bnb_address,
-      eth_address,
-      bsc_address
+      eth_address
     } = body
 
     if(!direction) {
@@ -682,25 +623,9 @@ const models = {
       if(!bnb.validateAddress(bnb_address)) {
         return 'bnb_address is invalid'
       }
-    } else if(direction === 'BinanceToEthereum'){
+    } else {
       if(!eth_address) {
         return 'eth_address is required'
-      }
-
-      // if(!eth.validateAddress(eth_address)) {
-      //   return 'eth_address is invalid'
-      // }
-    } else if(direction === 'BSCToEthereum'){
-      if(!eth_address) {
-        return 'eth_address is required'
-      }
-
-      // if(!eth.validateAddress(eth_address)) {
-      //   return 'eth_address is invalid'
-      // }
-    }else if(direction === 'EthereumToBSC'){
-      if(!bsc_address) {
-        return 'bsc_address is required'
       }
 
       // if(!eth.validateAddress(eth_address)) {
@@ -758,79 +683,10 @@ const models = {
     })
   },
 
-
-  swapEthereumToBSC(req, res, next, data) {
-    const {
-      bsc_address
-    } = data
-
-    models.getClientAccountForBSCAddress(bsc_address, (err, clientAccount) => {
-      if(err) {
-        console.log(err)
-        res.status(500)
-        res.body = { 'status': 500, 'success': false, 'result': err }
-        return next(null, req, res, next)
-      }
-
-      if(clientAccount) {
-        res.status(205)
-        res.body = { 'status': 200, 'success': true, 'result': clientAccount }
-        return next(null, req, res, next)
-      } else {
-        eth.createAccount((err, account) => {
-          console.log('deposit account address: ',account)
-
-          if(err) {
-            console.log(err)
-            res.status(500)
-            res.body = { 'status': 500, 'success': false, 'result': err }
-            return next(null, req, res, next)
-          }
-
-          models.insertClientEthBscAccount(bsc_address, account, (err, clientAccount) => {
-
-            console.log(clientAccount)
-            if(err) {
-              console.log(err)
-              res.status(500)
-              res.body = { 'status': 500, 'success': false, 'result': err }
-              return next(null, req, res, next)
-            }
-
-            res.status(205)
-            res.body = { 'status': 200, 'success': true, 'result': clientAccount }
-            return next(null, req, res, next)
-          })
-        })
-      }
-    })
-  },
-
-  getClientAccountForBSCAddress(bscAddress, callback) {
-    db.oneOrNone('select ca.uuid, ca.bsc_address, cea.address as eth_address from client_accounts_bsc ca left join client_eth_accounts cea on cea.uuid = ca.client_eth_account_uuid where ca.bsc_address = $1;', [bscAddress])
+  getClientAccountForBnbAddress(bnbAddress, callback) {
+    db.oneOrNone('select ca.uuid, ca.bnb_address, cea.address as eth_address from client_accounts_bnb ca left join client_eth_accounts cea on cea.uuid = ca.client_eth_account_uuid where ca.bnb_address = $1;', [bnbAddress])
     .then((response) => {
       callback(null, response)
-    })
-    .catch(callback)
-  },
-
-  insertClientEthBscAccount(bscAddress, ethAccount, callback) {
-    const dbPassword = bip39.generateMnemonic()
-    const password = KEY+':'+dbPassword
-    const aes256private = models.encrypt(ethAccount.privateKey, password)
-
-    db.oneOrNone('insert into client_eth_accounts(uuid, private_key, address, encr_key, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, now()) returning uuid, address;', [aes256private, ethAccount.address, dbPassword])
-    .then((returnedEthAccount) => {
-      db.oneOrNone('insert into client_accounts_bsc(uuid, bsc_address, client_eth_account_uuid, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, now()) returning uuid, bsc_address;', [bscAddress, returnedEthAccount.uuid])
-      .then((clientAccount) => {
-        const returnObj = {
-          uuid: clientAccount.uuid,
-          bsc_address: clientAccount.bsc_address,
-          eth_address: returnedEthAccount.address
-        }
-        callback(null, returnObj)
-      })
-      .catch(callback)
     })
     .catch(callback)
   },
@@ -904,88 +760,6 @@ const models = {
 
   },
 
-
-  swapBSCToEthereum(req, res, next, data) {
-    const {
-      eth_address
-    } = data
-
-    models.getClientAccountForEthAddressBSC(eth_address, (err, clientAccount) => {
-      if(err) {
-        console.log(err)
-        res.status(500)
-        res.body = { 'status': 500, 'success': false, 'result': err }
-        return next(null, req, res, next)
-      }
-
-      if(clientAccount) {
-        console.log(clientAccount)
-        res.status(205)
-        res.body = { 'status': 200, 'success': true, 'result': clientAccount }
-        return next(null, req, res, next)
-      } else {
-
-        bsc.createAccount((err, account) => {
-          console.log('deposit account address: ',account)
-
-          if(err) {
-            console.log(err)
-            res.status(500)
-            res.body = { 'status': 500, 'success': false, 'result': err }
-            return next(null, req, res, next)
-          }
-
-          models.insertClientBscEthAccount(eth_address, account, (err, clientAccount) => {
-
-            console.log(clientAccount)
-            if(err) {
-              console.log(err)
-              res.status(500)
-              res.body = { 'status': 500, 'success': false, 'result': err }
-              return next(null, req, res, next)
-            }
-
-            res.status(205)
-            res.body = { 'status': 200, 'success': true, 'result': clientAccount }
-            return next(null, req, res, next)
-          })
-        })
-      }
-    })
-
-  },
-
-  getClientAccountForEthAddressBSC(ethAddress, callback) {
-    console.log("getClientAccountForEthAddressBSC start")
-    db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bsc_address from client_accounts_eth ca left join client_bsc_accounts cba on cba.uuid = ca.client_bsc_account_uuid where ca.eth_address = $1;', [ethAddress])
-    .then((response) => {
-      console.log("****=> \n", response)
-      callback(null, response)
-    })
-    .catch(callback)
-  },
-
-  insertClientBscEthAccount(ethAddress, bscAccount, callback) {
-    const dbPassword = bip39.generateMnemonic()
-    const password = KEY+':'+dbPassword
-    const aes256private = models.encrypt(bscAccount.privateKey, password)
-
-    db.oneOrNone('insert into client_bsc_accounts(uuid, private_key, address, encr_key, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, now()) returning uuid, address;', [aes256private, bscAccount.address, dbPassword])
-    .then((returnedBscAccount) => {
-      db.oneOrNone('insert into client_accounts_eth(uuid, eth_address, client_bsc_account_uuid, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, now()) returning uuid, eth_address;', [ethAddress, returnedBscAccount.uuid])
-      .then((clientAccount) => {
-        const returnObj = {
-          uuid: clientAccount.uuid,
-          eth_address: clientAccount.eth_address,
-          bsc_address: returnedBscAccount.address
-        }
-        callback(null, returnObj)
-      })
-      .catch(callback)
-    })
-    .catch(callback)
-  },
-
   getClientAccountForEthAddress(ethAddress, callback) {
     db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bnb_address from client_accounts_eth ca left join client_bnb_accounts cba on cba.uuid = ca.client_bnb_account_uuid where ca.eth_address = $1;', [ethAddress])
     .then((response) => {
@@ -1039,241 +813,9 @@ const models = {
 
       if(direction === 'EthereumToBinance') {
         models.finalizeSwapEthereumToBinance(req, res, next, data)
-      } else if(direction === 'BinanceToEthereum') {
+      } else {
         models.finalizeSwapBinanceToEthereum(req, res, next, data)
-      } else if(direction === 'EthereumToBSC') {
-        models.finalizeSwapEthereumToBSC(req, res, next, data)
-      } else if(direction === 'BSCToEthereum') {
-        models.finalizeSwapBSCToEthereum(req, res, next, data)
-      } else{
-        res.status(400)
-        res.body = { 'status': 400, 'success': false, 'result': 'not supported yet' }
-        return next(null, req, res, next)        
       }
-    })
-  },
-
-
-  finalizeSwapBSCToEthereum(req, res, next, data) {
-
-    const {
-      uuid,
-      token_uuid,
-      direction
-    } = data
-
-    models.getClientAccountForUuidBSC2E(uuid, (err, clientAccount) => {
-      if(err) {
-        console.log(err)
-        res.status(500)
-        res.body = { 'status': 500, 'success': false, 'result': err }
-        return next(null, req, res, next)
-      }
-
-      if(!clientAccount) {
-        res.status(400)
-        res.body = { 'status': 400, 'success': false, 'result': 'Unable to find swap details' }
-        return next(null, req, res, next)
-      }
-      console.log("clientAccount:=>\n",clientAccount)
-
-      models.getTokenInfoForSwap(token_uuid, (err, tokenInfo) => {
-        if(err) {
-          console.log(err)
-          res.status(500)
-          res.body = { 'status': 500, 'success': false, 'result': err }
-          return next(null, req, res, next)
-        }
-
-        if(!tokenInfo) {
-          res.status(400)
-          res.body = { 'status': 400, 'success': false, 'result': 'Unable to find token details' }
-          return next(null, req, res, next)
-        }
-
-        console.log("tokenInfo:=>\n",tokenInfo)
-
-        async.parallel([
-          (callback) => { bsc.getTransactionsForAddress(tokenInfo.bep20_address, clientAccount.bsc_address, callback) },
-          (callback) => { models.getTransactionHashs(token_uuid, uuid, callback) }
-        ], (err, data) => {
-          if(err) {
-            console.log(err)
-            res.status(500)
-            res.body = { 'status': 500, 'success': false, 'result': 'Unable to process request: '+err }
-            return next(null, req, res, next)
-          }
-
-          const ethTransactions = data[0]
-          const swaps = data[1]
-
-          console.log("ethTransactions:=>\n",ethTransactions)
-          console.log("swaps:=>\n",swaps) 
-
-          if(!ethTransactions || ethTransactions.length === 0) {
-            res.status(400)
-            res.body = { 'status': 400, 'success': false, 'result': 'Unable to find a deposit' }
-            return next(null, req, res, next)
-          }
-
-          const newTransactions = ethTransactions.filter((ethTransaction) => {
-            if(!ethTransaction || ethTransaction.amount <= 0) {
-              return false
-            }
-
-            const thisTransaction = swaps.filter((swap) => {
-              return swap.deposit_transaction_hash === ethTransaction.transactionHash
-            })
-
-            if(thisTransaction.length > 0) {
-              return false
-            } else {
-              return true
-            }
-          })
-
-          if(newTransactions.length === 0) {
-            res.status(400)
-            res.body = { 'status': 400, 'success': false, 'result': 'Unable to find any new deposits' }
-            return next(null, req, res, next)
-          }
-
-          console.log("newTransactions => ",newTransactions)
-          models.insertSwaps(newTransactions, clientAccount, token_uuid, direction, (err, newSwaps) => {
-            if(err) {
-              console.log(err)
-              res.status(500)
-              res.body = { 'status': 500, 'success': false, 'result': err }
-              return next(null, req, res, next)
-            }
-
-            models.proccessSwapsBSC2E(newSwaps, tokenInfo, (err, result) => {
-              if(err) {
-                console.log(err)
-                res.status(500)
-                res.body = { 'status': 500, 'success': false, 'result': err }
-                return next(null, req, res, next)
-              }
-
-              res.status(205)
-              res.body = { 'status': 200, 'success': true, 'result': newSwaps }
-              return next(null, req, res, next)
-            })
-          })
-        })
-      })
-    })
-  },
-
-  finalizeSwapEthereumToBSC(req, res, next, data) {
-
-    const {
-      uuid,
-      token_uuid,
-      direction
-    } = data
-
-    models.getClientAccountForUuidE2BSC(uuid, (err, clientAccount) => {
-      if(err) {
-        console.log(err)
-        res.status(500)
-        res.body = { 'status': 500, 'success': false, 'result': err }
-        return next(null, req, res, next)
-      }
-
-      if(!clientAccount) {
-        res.status(400)
-        res.body = { 'status': 400, 'success': false, 'result': 'Unable to find swap details' }
-        return next(null, req, res, next)
-      }
-      console.log("clientAccount:=>\n",clientAccount)
-
-      models.getTokenInfoForSwap(token_uuid, (err, tokenInfo) => {
-        if(err) {
-          console.log(err)
-          res.status(500)
-          res.body = { 'status': 500, 'success': false, 'result': err }
-          return next(null, req, res, next)
-        }
-
-        if(!tokenInfo) {
-          res.status(400)
-          res.body = { 'status': 400, 'success': false, 'result': 'Unable to find token details' }
-          return next(null, req, res, next)
-        }
-
-        console.log("tokenInfo:=>\n",tokenInfo)
-
-        async.parallel([
-          (callback) => { eth.getTransactionsForAddress(tokenInfo.erc20_address, clientAccount.eth_address, callback) },
-          (callback) => { models.getTransactionHashs(token_uuid, uuid, callback) }
-        ], (err, data) => {
-          if(err) {
-            console.log(err)
-            res.status(500)
-            res.body = { 'status': 500, 'success': false, 'result': 'Unable to process request: '+err }
-            return next(null, req, res, next)
-          }
-
-          const ethTransactions = data[0]
-          const swaps = data[1]
-
-          console.log("ethTransactions:=>\n",ethTransactions)
-          console.log("swaps:=>\n",swaps) 
-
-          if(!ethTransactions || ethTransactions.length === 0) {
-            res.status(400)
-            res.body = { 'status': 400, 'success': false, 'result': 'Unable to find a deposit' }
-            return next(null, req, res, next)
-          }
-
-          const newTransactions = ethTransactions.filter((ethTransaction) => {
-            if(!ethTransaction || ethTransaction.amount <= 0) {
-              return false
-            }
-
-            const thisTransaction = swaps.filter((swap) => {
-              return swap.deposit_transaction_hash === ethTransaction.transactionHash
-            })
-
-            if(thisTransaction.length > 0) {
-              return false
-            } else {
-              return true
-            }
-          })
-
-          if(newTransactions.length === 0) {
-            res.status(400)
-            res.body = { 'status': 400, 'success': false, 'result': 'Unable to find any new deposits' }
-            return next(null, req, res, next)
-          }
-
-          models.insertSwaps(newTransactions, clientAccount, token_uuid, direction, (err, newSwaps) => {
-            if(err) {
-              console.log(err)
-              res.status(500)
-              res.body = { 'status': 500, 'success': false, 'result': err }
-              return next(null, req, res, next)
-            }
-
-            models.proccessSwapsE2BSC(newSwaps, tokenInfo, (err, result) => {
-              if(err) {
-                console.log(err)
-                res.status(500)
-                res.body = { 'status': 500, 'success': false, 'result': err }
-                return next(null, req, res, next)
-              }
-
-              console.log("*** processed swap result =>", result)
-
-              res.status(205)
-              res.body = { 'status': 200, 'success': true, 'result': newSwaps }
-              return next(null, req, res, next)
-            })
-          })
-        })
-      })
     })
   },
 
@@ -1659,178 +1201,8 @@ const models = {
     })
   },
 
-
-  processSwapE2BSC(swap, tokenInfo, address, callback) {
-    //console.log('********** => ', n++);
-    //console.log('**********\n', swap);
-
-    bsc.sendTransaction(tokenInfo.bep20_address, address.private_key_decrypted, tokenInfo.bsc_address, swap.bsc_address, swap.amount, (err, swapResult) => {
-      if(err) {
-        console.log("eth send error =>\n", err)
-
-        return models.revertUpdateWithDepositTransactionHash(swap.uuid, (revertErr) => {
-          if(revertErr) {
-            console.log(revertErr)
-          }
-
-          let text = "BNBridge encountered an error processing a swap."
-
-          text += '\n\n*********************************************************'
-          text += '\nDirection: Binance To Ethereum'
-          text += '\nToken: '+tokenInfo.name + ' ('+ tokenInfo.symbol +')'
-          text += '\nDeposit Hash: '+swap.deposit_transaction_hash
-          text += '\nFrom: '+swap.bnb_address
-          text += '\nTo: '+swap.eth_address
-          text += '\nAmount: '+swap.amount + ' ' + tokenInfo.symbol
-          text += '\n\nError Received: '+err
-          text += '\n*********************************************************'
-
-          //emailer.sendMail('BNBridge error', text)
-          console.log("******* mail contents *******\n", text)
-
-          return callback(err)
-        })
-      }
-
-      if(swapResult) {
-        console.log('\n**************bsc transfer => ****\n',swapResult);
-
-        let resultHash = swapResult
-
-        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err) => {
-          if(err) {
-            return callback(err)
-          }
-
-          callback(null, resultHash)
-        })
-      } else {
-        console.log(swapResult)
-        return callback('Swap result is not defined')
-      }
-
-    })
-  },
-
-  proccessSwapsE2BSC(swaps, tokenInfo, callback) {
-
-    models.getBscAccount(tokenInfo.bsc_address, async (err, address) => {
-      if(err || !address) {
-        console.log("*** get bsc account error=>", err)
-        console.log(err)
-        res.status(500)
-        res.body = { 'status': 500, 'success': false, 'result': 'Unable to retrieve address' }
-        return next(null, req, res, next)
-      }
-      
-      await bsc.initNonce(tokenInfo.bsc_address);
-
-      async.map(swaps, (swap, callbackInner) => {
-        models.processSwapE2BSC(swap, tokenInfo, address, callbackInner)
-      }, (err, swapResults) => {
-        if(err) {
-          return callback(err)
-        }
-        console.log("processSwapE2BSC result => \n", swapResults)
-        callback(err, swapResults)
-      })
-    })
-  },
-
-  proccessSwapsBSC2E(swaps, tokenInfo, callback) {
-
-    models.getEthAccount(tokenInfo.eth_address, async (err, address) => {
-      if(err || !address) {
-        console.log(err)
-        res.status(500)
-        res.body = { 'status': 500, 'success': false, 'result': 'Unable to retrieve address' }
-        return next(null, req, res, next)
-      }
-      
-      await eth.initNonce(tokenInfo.eth_address);
-
-      async.map(swaps, (swap, callbackInner) => {
-        models.processSwapBSC2E(swap, tokenInfo, address, callbackInner)
-      }, (err, swapResults) => {
-        if(err) {
-          return callback(err)
-        }
-
-        callback(err, swapResults)
-      })
-    })
-  },
-
-  processSwapBSC2E(swap, tokenInfo, address, callback) {
-    //console.log('********** => ', n++);
-    //console.log('**********\n', swap);
-
-    eth.sendTransaction(tokenInfo.erc20_address, address.private_key_decrypted, tokenInfo.eth_address, swap.eth_address, swap.amount, (err, swapResult) => {
-      if(err) {
-        console.log("eth send error =>\n", err)
-
-        return models.revertUpdateWithDepositTransactionHash(swap.uuid, (revertErr) => {
-          if(revertErr) {
-            console.log(revertErr)
-          }
-
-          let text = "BNBridge encountered an error processing a swap."
-
-          text += '\n\n*********************************************************'
-          text += '\nDirection: Binance To Ethereum'
-          text += '\nToken: '+tokenInfo.name + ' ('+ tokenInfo.symbol +')'
-          text += '\nDeposit Hash: '+swap.deposit_transaction_hash
-          text += '\nFrom: '+swap.bnb_address
-          text += '\nTo: '+swap.eth_address
-          text += '\nAmount: '+swap.amount + ' ' + tokenInfo.symbol
-          text += '\n\nError Received: '+err
-          text += '\n*********************************************************'
-
-          emailer.sendMail('BNBridge error', text)
-
-          return callback(err)
-        })
-      }
-
-      if(swapResult) {
-        console.log('\n**************eth transfer => ****\n',swapResult);
-
-        let resultHash = swapResult
-
-        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err) => {
-          if(err) {
-            return callback(err)
-          }
-
-          callback(null, resultHash)
-        })
-      } else {
-        console.log(swapResult)
-        return callback('Swap result is not defined')
-      }
-
-    })
-  },
-
   getEthAccount(ethAddress, callback) {
     db.oneOrNone('select * from eth_accounts where address = $1;', [ethAddress])
-    .then((address) => {
-      if(address.encr_key) {
-        const dbPassword = address.encr_key
-        const password = KEY+':'+dbPassword
-        address.private_key_decrypted = models.decrypt(address.private_key, password)
-      } else {
-        address.private_key_decrypted = address.private_key
-      }
-
-      console.log("eth send address => \n", address)
-      callback(null, address)
-    })
-    .catch(callback)
-  },
-
-  getBscAccount(bscAddress, callback) {
-    db.oneOrNone('select * from bsc_accounts where address = $1;', [bscAddress])
     .then((address) => {
       if(address.encr_key) {
         const dbPassword = address.encr_key
@@ -1891,22 +1263,6 @@ const models = {
     .catch(callback)
   },
 
-  getClientAccountForUuidE2BSC(uuid, callback) {
-    db.oneOrNone('select ca.uuid, ca.bsc_address, cea.address as eth_address from client_accounts_bsc ca left join client_eth_accounts cea on cea.uuid = ca.client_eth_account_uuid where ca.uuid = $1;', [uuid])
-    .then((response) => {
-      callback(null, response)
-    })
-    .catch(callback)
-  },
-
-  getClientAccountForUuidBSC2E(uuid, callback) {
-    db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bsc_address from client_accounts_eth ca left join client_bsc_accounts cba on cba.uuid = ca.client_bsc_account_uuid where ca.uuid = $1;', [uuid])
-    .then((response) => {
-      callback(null, response)
-    })
-    .catch(callback)
-  },
-
   getClientAccountForUuidB2E(uuid, callback) {
     db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bnb_address from client_accounts_eth ca left join client_bnb_accounts cba on cba.uuid = ca.client_bnb_account_uuid where ca.uuid = $1;', [uuid])
     .then((response) => {
@@ -1916,14 +1272,7 @@ const models = {
   },
 
   getTokenInfoForSwap(tokenUuid, callback) {
-    db.oneOrNone('select tok.uuid, tok.name, tok.symbol, tok.unique_symbol, tok.total_supply, tok.fee_per_swap, tok.minimum_swap_amount, tok.erc20_address, tok.bep20_address, \
-    bnb.address as bnb_address, \
-    bsc.address as bsc_address, \
-    eth.address as eth_address from tokens tok \
-    left join bnb_accounts bnb on bnb.uuid = tok.bnb_account_uuid \
-    left join eth_accounts eth on eth.uuid = tok.eth_account_uuid \
-    left join bsc_accounts bsc on bsc.uuid = tok.bsc_account_uuid \
-    where tok.uuid = $1;', [tokenUuid])
+    db.oneOrNone('select tok.uuid, tok.name, tok.symbol, tok.unique_symbol, tok.total_supply, tok.fee_per_swap, tok.minimum_swap_amount, tok.erc20_address, bnb.address as bnb_address, eth.address as eth_address from tokens tok left join bnb_accounts bnb on bnb.uuid = tok.bnb_account_uuid left join eth_accounts eth on eth.uuid = tok.eth_account_uuid where tok.uuid = $1;', [tokenUuid])
     .then((response) => {
       callback(null, response)
     })
@@ -1943,14 +1292,8 @@ const models = {
       function (transaction, callbackInner) {
         if(direction === 'EthereumToBinance') {
           models.insertSwapE2B(transaction, clientAccount, tokenUuid, direction, callbackInner)
-        } else if(direction === 'BinanceToEthereum') {
-          models.insertSwapB2E(transaction, clientAccount, tokenUuid, direction, callbackInner)
-        } else if(direction === 'EthereumToBSC') {
-          models.insertSwapE2BSC(transaction, clientAccount, tokenUuid, direction, callbackInner)
-        } else if(direction === 'BSCToEthereum') {
-          models.insertSwapBSC2E(transaction, clientAccount, tokenUuid, direction, callbackInner)
         } else {
-          return callback("not supported yet") 
+          models.insertSwapB2E(transaction, clientAccount, tokenUuid, direction, callbackInner)
         }
       },
       function(err, result) {
@@ -1958,33 +1301,10 @@ const models = {
           console.log(err)
           return callback(err)
         }
-        console.log('\ninsertSwap result => \n',result);
+        console.log('\ninsertSwapB2E result => \n',result);
         callback(null, result)
       }
     )
-  },
-
-  insertSwapE2BSC(transaction, clientAccount, tokenUuid, direction, callback) {
-    db.oneOrNone('insert into swaps (uuid, token_uuid, eth_address, bsc_address, amount, client_account_uuid, deposit_transaction_hash, direction, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, $4, $5, $6, $7, now()) returning uuid, eth_address, bsc_address, amount, deposit_transaction_hash;', [tokenUuid, transaction.from, clientAccount.bsc_address, transaction.amount, clientAccount.uuid, transaction.transactionHash, direction])
-    .then((response) => {
-      console.log("insertSwapE2BSC response=>\n",response)
-      callback(null, response)
-    })
-    .catch((err) => {
-      callback(err)
-    })
-  },
-
-  insertSwapBSC2E(transaction, clientAccount, tokenUuid, direction, callback) {
-    console.log('insertSwapBSC2E start')
-    db.oneOrNone('insert into swaps (uuid, token_uuid, eth_address, bsc_address, amount, client_account_uuid, deposit_transaction_hash, direction, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, $4, $5, $6, $7, now()) returning uuid, eth_address, bsc_address, amount, deposit_transaction_hash;', [tokenUuid, clientAccount.eth_address, transaction.from, transaction.amount, clientAccount.uuid, transaction.transactionHash, direction])
-    .then((response) => {
-      console.log("insertSwapBSC2E response=>\n",response) 
-      callback(null, response)
-    })
-    .catch((err) => {
-      callback(err)
-    })
   },
 
   insertSwapE2B(transaction, clientAccount, tokenUuid, direction, callback) {
