@@ -377,7 +377,7 @@ const models = {
   },
 
   getTokenInfo(uuid, callback) {
-    db.oneOrNone('select tok.uuid, tok.name, tok.symbol, tok.unique_symbol, tok.total_supply, tok.erc20_address, tok.mintable, tok.fee_per_swap, tok.minimum_swap_amount, \
+    db.oneOrNone('select tok.uuid, tok.name, tok.symbol, tok.unique_symbol, tok.total_supply, tok.erc20_address, tok.bep20_address,tok.mintable, tok.fee_per_swap, tok.minimum_swap_amount, \
     bnb.address as bnb_address, \
     bsc.address as bsc_address, \
     eth.address as eth_address \
@@ -558,7 +558,16 @@ const models = {
    *  Returns a list of tokens
    */
   getTokens(req, res, next) {
-    db.manyOrNone('select tok.uuid, tok.name, tok.symbol, tok.unique_symbol, tok.total_supply, tok.minimum_swap_amount, tok.fee_per_swap, tok.listed, tok.listing_proposed, tok.listing_proposal_uuid, tok.erc20_address, tok.process_date, tok.eth_to_bnb_enabled, tok.bnb_to_eth_enabled, eth.address as eth_address from tokens tok left join eth_accounts eth on eth.uuid = tok.eth_account_uuid where processed is true;')
+    db.manyOrNone('select tok.uuid, tok.name, tok.symbol, tok.unique_symbol, \
+    tok.total_supply, tok.minimum_swap_amount, tok.fee_per_swap, tok.listed, \
+    tok.listing_proposed, tok.listing_proposal_uuid, tok.erc20_address, tok.bep20_address,tok.process_date, \
+    tok.eth_to_bnb_enabled, tok.bnb_to_eth_enabled, eth.address as eth_address, \
+    bnb.address as bnb_address, bsc.address as bsc_address \
+    from tokens tok \
+    left join eth_accounts eth on eth.uuid = tok.eth_account_uuid \
+    left join bnb_accounts bnb on bnb.uuid = tok.bnb_account_uuid \
+    left join bsc_accounts bsc on bsc.uuid = tok.bsc_account_uuid \
+    where processed is true;')
     .then((tokens) => {
       if (!tokens) {
         res.status(404)
@@ -805,7 +814,7 @@ const models = {
       }
     })
   },
-  
+
   getClientAccountForBnbAddress(bnbAddress, callback) {
     db.oneOrNone('select ca.uuid, ca.bnb_address, cea.address as eth_address from client_accounts_bnb ca left join client_eth_accounts cea on cea.uuid = ca.client_eth_account_uuid where ca.bnb_address = $1;', [bnbAddress])
     .then((response) => {
@@ -2744,6 +2753,54 @@ const models = {
     })
   },
 
+  getBscBalance(req, res, next) {
+    models.descryptPayload1(req, res, next, (data) => {
+      let result = models.validateGetBscbalances(data)
+
+      if(result !== true) {
+        res.status(400)
+        res.body = { 'status': 400, 'success': false, 'result': result }
+        return next(null, req, res, next)
+      }
+
+      const {
+        bsc_address,
+        token_uuid
+      } = data
+
+      models.getTokenInfo(token_uuid, (err, tokenInfo) => {
+        if(err) {
+          console.log(err)
+          res.status(500)
+          res.body = { 'status': 500, 'success': false, 'result': err }
+          return next(null, req, res, next)
+        }
+
+        console.log("select token info: =>", tokenInfo)
+
+        bsc.getBEP20Balance(bsc_address, tokenInfo.bep20_address, (err, balance) => {
+          if(err) {
+            console.log(err)
+            res.status(500)
+            res.body = { 'status': 500, 'success': false, 'result': err }
+            return next(null, req, res, next)
+          }
+
+          const returnObj = {
+            symbol: tokenInfo.symbol,
+            name: tokenInfo.name,
+            balance: parseFloat(balance),
+          }
+
+          res.status(205)
+          res.body = { 'status': 200, 'success': true, 'result': returnObj }
+          return next(null, req, res, next)
+
+        })
+      })
+    })
+  },
+
   validateGetEthbalances(body) {
     let { eth_address, token_uuid } = body
 
@@ -2757,7 +2814,19 @@ const models = {
 
     return true
   },
+  validateGetBscbalances(body) {
+    let { bsc_address, token_uuid } = body
 
+    if(!bsc_address) {
+      return 'bsc_address is required'
+    }
+
+    if(!token_uuid) {
+      return 'token_uuid is required'
+    }
+
+    return true
+  },
   /**
     createAccountBNB()
     creates a new BNB accoutn for the user.
@@ -2886,7 +2955,77 @@ const models = {
     })
   },
 
+
+  getBEP20Info(req, res, next) {
+    //models.descryptPayload(req, res, next, (data) => {
+    models.checkPayloadSimu(req, res, next, (data) => {
+      const {
+        contract_address
+      } = data
+      console.log('start')
+      console.log(data)
+      console.log(contract_address)
+
+      bsc.getBEP20Decimals(contract_address, (err, decimals) => {
+        console.log('decimals: ' + decimals)
+        if(err) {
+          console.log(err)
+          res.status(500)
+          res.body = { 'status': 500, 'success': false, 'result': err }
+          return next(null, req, res, next)
+        } 
+        bsc.getBEP20Name(contract_address, (err, name) => {
+
+          console.log('name: ' + name)
+          if(err) {
+            console.log(err)
+            res.status(500)
+            res.body = { 'status': 500, 'success': false, 'result': err }
+            return next(null, req, res, next)
+          }
+          bsc.getBEP20Symbol(contract_address, (err, symbol) => {
+
+            console.log('symbol: ' + symbol)
+            if(err) {
+              console.log(err)
+              res.status(500)
+              res.body = { 'status': 500, 'success': false, 'result': err }
+              return next(null, req, res, next)
+            }
+            bsc.getBEP20TotalSupply(contract_address, (err, totalSupply) => {
+
+              console.log('total: ' + totalSupply)
+              if(err) {
+                console.log(err)
+                res.status(500)
+                res.body = { 'status': 500, 'success': false, 'result': err }
+                return next(null, req, res, next)
+              }
+
+              const returnObj = {
+                name: name,
+                symbol: symbol,
+                decimals: decimals,
+                total_supply: totalSupply,
+                address: contract_address
+              }
+
+              console.log(returnObj)
+
+              res.status(205)
+              res.body = { 'status': 200, 'success': true, 'result': returnObj }
+              return next(null, req, res, next)
+            })
+          })
+        })
+      })
+
+    })
+  }  
+
 }
+
+
 
 String.prototype.hexEncode = function(){
     var hex, i;

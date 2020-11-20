@@ -89,7 +89,7 @@ const bsc = {
     .catch(callback)
   },
 
-  async getBEP200Decimals(contractAddress, callback) {
+  async getBEP20Decimals(contractAddress, callback) {
     let myContract = new web3.eth.Contract(config.erc20ABI, contractAddress)
 
     myContract.methods.decimals().call({ from: contractAddress })
