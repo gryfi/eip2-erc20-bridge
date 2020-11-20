@@ -1,0 +1,312 @@
+api.bnbridge.exchange 8000
+{ direction: 'BinanceToEthereum',
+  uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
+clientAccount => 
+ { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+  bnb_address: 'tbnb19mlkyjlrep9dstxns6qpy08dy09a770ah9e5n4' }
+tokenInfo => 
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
+  symbol: 'GYEN',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+bnb get txs
+ https://testnet-dex.binance.org/api/v1/transactions?address=tbnb19mlkyjlrep9dstxns6qpy08dy09a770ah9e5n4&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE
+bnbTransactions => 
+ []
+swaps => 
+ []
+[0mPOST /api/v1/finalizeSwap [33m400 [0m963.635 ms - 66[0m
+{ direction: 'BinanceToEthereum',
+  uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
+clientAccount => 
+ { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+  bnb_address: 'tbnb19mlkyjlrep9dstxns6qpy08dy09a770ah9e5n4' }
+tokenInfo => 
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
+  symbol: 'GYEN',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+bnb get txs
+ https://testnet-dex.binance.org/api/v1/transactions?address=tbnb19mlkyjlrep9dstxns6qpy08dy09a770ah9e5n4&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE
+bnbTransactions => 
+ [ { txHash:
+     '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60',
+    blockHeight: 5519946,
+    txType: 'TRANSFER',
+    timeStamp: '2020-11-20T03:42:42.538Z',
+    fromAddr: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+    toAddr: 'tbnb19mlkyjlrep9dstxns6qpy08dy09a770ah9e5n4',
+    value: '2.19000000',
+    txAsset: 'GYEN-3C8',
+    txFee: '0.00037500',
+    proposalId: null,
+    txAge: 82,
+    orderId: null,
+    code: 0,
+    data: null,
+    confirmBlocks: 0,
+    memo: '',
+    source: 0,
+    sequence: 47 } ]
+swaps => 
+ []
+insertSwapB2E response=>
+ { uuid: '9cd2c75b-cb12-aa5e-0c0a-d1946d7bcc27',
+  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+  bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+  amount: '2.19000000',
+  deposit_transaction_hash:
+   '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60' }
+
+insertSwap result => 
+ [ { uuid: '9cd2c75b-cb12-aa5e-0c0a-d1946d7bcc27',
+    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+    bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+    amount: '2.19000000',
+    deposit_transaction_hash:
+     '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60' } ]
+eth send address => 
+ { uuid: 'af6b0691-a2c7-e73a-7ce2-ae8b3cd6d79b',
+  private_key:
+   '47b35690e302a6cde241de600fab1d72ecc090306b2f18fa07248ee0a5d7d8f6685d0d96c2cb1d2659543a4db0e57f226471a3ed9ee349cbf2920dc65cac01706655',
+  address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6',
+  created: 2020-11-18T10:36:38.537Z,
+  encr_key:
+   'spider prosper october journey judge room carry ritual vast panel slab answer',
+  private_key_decrypted:
+   '0x050030da0d9b42a5c5d064810056e9909e1c42678e8a2b5ab4cc72721c69e1aa' }
+
+nonce =>   14
+eth sendAmount =>  2190000
+eth sendAmount int =>  2190000
+tx => 
+ { from: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6',
+  to: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  value: '0',
+  gasPrice: '25000000000',
+  gas: 60000,
+  chainId: 3,
+  nonce: 14,
+  data:
+   '0xa9059cbb000000000000000000000000687422eea2cb73b5d3e242ba5456b782919afc850000000000000000000000000000000000000000000000000000000000216ab0' }
+privateKey=>  0x050030da0d9b42a5c5d064810056e9909e1c42678e8a2b5ab4cc72721c69e1aa
+eth sendtx result =>  0xefe01029d87dd810a0aac9f4b06aaa7b3dbe071ebe931db1cabaa9f485332a6f
+
+**************eth transfer => ****
+ 0xefe01029d87dd810a0aac9f4b06aaa7b3dbe071ebe931db1cabaa9f485332a6f
+ *** updateWithTransferTransactionHash start
+
+[0mPOST /api/v1/finalizeSwap [32m200 [0m5142.564 ms - 323[0m
+{ direction: 'BinanceToEthereum',
+  uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
+clientAccount => 
+ { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+  bnb_address: 'tbnb19mlkyjlrep9dstxns6qpy08dy09a770ah9e5n4' }
+tokenInfo => 
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
+  symbol: 'GYEN',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+bnb get txs
+ https://testnet-dex.binance.org/api/v1/transactions?address=tbnb19mlkyjlrep9dstxns6qpy08dy09a770ah9e5n4&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE
+bnbTransactions => 
+ [ { txHash:
+     '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60',
+    blockHeight: 5519946,
+    txType: 'TRANSFER',
+    timeStamp: '2020-11-20T03:42:42.538Z',
+    fromAddr: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+    toAddr: 'tbnb19mlkyjlrep9dstxns6qpy08dy09a770ah9e5n4',
+    value: '2.19000000',
+    txAsset: 'GYEN-3C8',
+    txFee: '0.00037500',
+    proposalId: null,
+    txAge: 303,
+    orderId: null,
+    code: 0,
+    data: null,
+    confirmBlocks: 0,
+    memo: '',
+    source: 0,
+    sequence: 47 } ]
+swaps => 
+ [ { uuid: '9cd2c75b-cb12-aa5e-0c0a-d1946d7bcc27',
+    token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+    bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+    bsc_address: null,
+    amount: '2.19000000',
+    deposit_transaction_hash:
+     '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60',
+    transfer_transaction_hash:
+     '0xefe01029d87dd810a0aac9f4b06aaa7b3dbe071ebe931db1cabaa9f485332a6f',
+    processed: null,
+    created: 2020-11-20T03:44:04.880Z,
+    client_account_uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+    direction: 'BinanceToEthereum' } ]
+[0mPOST /api/v1/finalizeSwap [33m400 [0m928.913 ms - 73[0m
+{ direction: 'BSCToEthereum',
+  uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
+clientAccount:=>
+ { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+  bsc_address: '0x6dE89383F755691e397b77975211a6a68Fc67C74' }
+tokenInfo:=>
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
+  symbol: 'GYEN',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+ethTransactions:=>
+ []
+swaps:=>
+ [ { uuid: '9cd2c75b-cb12-aa5e-0c0a-d1946d7bcc27',
+    token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+    bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+    bsc_address: null,
+    amount: '2.19000000',
+    deposit_transaction_hash:
+     '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60',
+    transfer_transaction_hash:
+     '0xefe01029d87dd810a0aac9f4b06aaa7b3dbe071ebe931db1cabaa9f485332a6f',
+    processed: null,
+    created: 2020-11-20T03:44:04.880Z,
+    client_account_uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+    direction: 'BinanceToEthereum' } ]
+[0mPOST /api/v1/finalizeSwap [33m400 [0m542.415 ms - 66[0m
+{ direction: 'BSCToEthereum',
+  uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
+clientAccount:=>
+ { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+  bsc_address: '0x6dE89383F755691e397b77975211a6a68Fc67C74' }
+tokenInfo:=>
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
+  symbol: 'GYEN',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+0xab407c9eb0520000
+amount 2=>
+ 12.34
+ethTransactions:=>
+ [ { from: '0xdC229dB017a513CCFa070EA3b4edE71C4D8C1084',
+    to: '0x6dE89383F755691e397b77975211a6a68Fc67C74',
+    amount: 12.34,
+    transactionHash:
+     '0x46a95b90f2220cfd8d9b51fd1577231ee44d93b991c9b1b7f6b3258ab2193157' } ]
+swaps:=>
+ [ { uuid: '9cd2c75b-cb12-aa5e-0c0a-d1946d7bcc27',
+    token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+    bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+    bsc_address: null,
+    amount: '2.19000000',
+    deposit_transaction_hash:
+     '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60',
+    transfer_transaction_hash:
+     '0xefe01029d87dd810a0aac9f4b06aaa7b3dbe071ebe931db1cabaa9f485332a6f',
+    processed: null,
+    created: 2020-11-20T03:44:04.880Z,
+    client_account_uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+    direction: 'BinanceToEthereum' } ]
+newTransactions =>  [ { from: '0xdC229dB017a513CCFa070EA3b4edE71C4D8C1084',
+    to: '0x6dE89383F755691e397b77975211a6a68Fc67C74',
+    amount: 12.34,
+    transactionHash:
+     '0x46a95b90f2220cfd8d9b51fd1577231ee44d93b991c9b1b7f6b3258ab2193157' } ]
+insertSwapBSC2E start
+insertSwapBSC2E response=>
+ { uuid: '9b58fd99-03d2-3372-906e-96181780e2b7',
+  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+  bsc_address: '0xdC229dB017a513CCFa070EA3b4edE71C4D8C1084',
+  amount: '12.34',
+  deposit_transaction_hash:
+   '0x46a95b90f2220cfd8d9b51fd1577231ee44d93b991c9b1b7f6b3258ab2193157' }
+
+insertSwap result => 
+ [ { uuid: '9b58fd99-03d2-3372-906e-96181780e2b7',
+    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
+    bsc_address: '0xdC229dB017a513CCFa070EA3b4edE71C4D8C1084',
+    amount: '12.34',
+    deposit_transaction_hash:
+     '0x46a95b90f2220cfd8d9b51fd1577231ee44d93b991c9b1b7f6b3258ab2193157' } ]
+eth send address => 
+ { uuid: 'af6b0691-a2c7-e73a-7ce2-ae8b3cd6d79b',
+  private_key:
+   '47b35690e302a6cde241de600fab1d72ecc090306b2f18fa07248ee0a5d7d8f6685d0d96c2cb1d2659543a4db0e57f226471a3ed9ee349cbf2920dc65cac01706655',
+  address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6',
+  created: 2020-11-18T10:36:38.537Z,
+  encr_key:
+   'spider prosper october journey judge room carry ritual vast panel slab answer',
+  private_key_decrypted:
+   '0x050030da0d9b42a5c5d064810056e9909e1c42678e8a2b5ab4cc72721c69e1aa' }
+
+nonce =>   15
+eth sendAmount =>  12340000
+eth sendAmount int =>  12340000
+tx => 
+ { from: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6',
+  to: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  value: '0',
+  gasPrice: '25000000000',
+  gas: 60000,
+  chainId: 3,
+  nonce: 15,
+  data:
+   '0xa9059cbb000000000000000000000000687422eea2cb73b5d3e242ba5456b782919afc850000000000000000000000000000000000000000000000000000000000bc4b20' }
+privateKey=>  0x050030da0d9b42a5c5d064810056e9909e1c42678e8a2b5ab4cc72721c69e1aa
+eth sendtx result =>  0xe2f014d07144a5327ac7e6e5a907048bb3879aa2cf0efbb570bd506915cec742
+
+**************eth transfer => ****
+ 0xe2f014d07144a5327ac7e6e5a907048bb3879aa2cf0efbb570bd506915cec742
+ *** updateWithTransferTransactionHash start
+
+[0mPOST /api/v1/finalizeSwap [32m200 [0m1595.919 ms - 319[0m

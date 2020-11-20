@@ -805,14 +805,6 @@ const models = {
       }
     })
   },
-  
-  getClientAccountForBnbAddress(bnbAddress, callback) {
-    db.oneOrNone('select ca.uuid, ca.bnb_address, cea.address as eth_address from client_accounts_bnb ca left join client_eth_accounts cea on cea.uuid = ca.client_eth_account_uuid where ca.bnb_address = $1;', [bnbAddress])
-    .then((response) => {
-      callback(null, response)
-    })
-    .catch(callback)
-  },
 
   getClientAccountForBSCAddress(bscAddress, callback) {
     db.oneOrNone('select ca.uuid, ca.bsc_address, cea.address as eth_address from client_accounts_bsc ca left join client_eth_accounts cea on cea.uuid = ca.client_eth_account_uuid where ca.bsc_address = $1;', [bscAddress])
@@ -877,17 +869,11 @@ const models = {
         return next(null, req, res, next)
       }
 
-      if(clientAccount && clientAccount.bnb_address) {
+      if(clientAccount) {
         res.status(205)
         res.body = { 'status': 200, 'success': true, 'result': clientAccount }
         return next(null, req, res, next)
       } else {
-
-        var insertone = true
-
-        if(clientAccount) {
-          insertone = false;
-        }
 
         const keyName = eth_address+'_key'
         const password = models.genPassword()
@@ -900,7 +886,7 @@ const models = {
             return next(null, req, res, next)
           }
 
-          models.insertClientBnbAccount(eth_address, keyName, password, keyData, insertone, (err, clientAccount) => {
+          models.insertClientBnbAccount(eth_address, keyName, password, keyData, (err, clientAccount) => {
             if(err) {
               console.log(err)
               res.status(500)
@@ -932,17 +918,12 @@ const models = {
         return next(null, req, res, next)
       }
 
-      if(clientAccount && clientAccount.bsc_address) {
+      if(clientAccount) {
         console.log(clientAccount)
         res.status(205)
         res.body = { 'status': 200, 'success': true, 'result': clientAccount }
         return next(null, req, res, next)
       } else {
-        var insertone = true
-
-        if(clientAccount) {
-          insertone = false;
-        }
 
         bsc.createAccount((err, account) => {
           console.log('deposit account address: ',account)
@@ -954,7 +935,7 @@ const models = {
             return next(null, req, res, next)
           }
 
-          models.insertClientBscEthAccount(eth_address, insertone, account, (err, clientAccount) => {
+          models.insertClientBscEthAccount(eth_address, account, (err, clientAccount) => {
 
             console.log(clientAccount)
             if(err) {
@@ -974,7 +955,6 @@ const models = {
 
   },
 
- 
   getClientAccountForEthAddressBSC(ethAddress, callback) {
     console.log("getClientAccountForEthAddressBSC start")
     db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bsc_address from client_accounts_eth ca left join client_bsc_accounts cba on cba.uuid = ca.client_bsc_account_uuid where ca.eth_address = $1;', [ethAddress])
@@ -985,34 +965,7 @@ const models = {
     .catch(callback)
   },
 
-  insertClientBscEthAccount(ethAddress, insert, bscAccount, callback) {
-    const dbPassword = bip39.generateMnemonic()
-    const password = KEY+':'+dbPassword
-    const aes256private = models.encrypt(bscAccount.privateKey, password)
-
-    db.oneOrNone('insert into client_bsc_accounts(uuid, private_key, address, encr_key, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, now()) returning uuid, address;', [aes256private, bscAccount.address, dbPassword])
-    .then((returnedBscAccount) => {
-      let sqlstr = ''
-      if(insert) {
-        sqlstr = 'insert into client_accounts_eth(uuid, eth_address, client_bsc_account_uuid, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, now()) returning uuid, eth_address;'
-      }else {
-        sqlstr = 'update client_accounts_eth set client_bsc_account_uuid=$2 where eth_address=$1 returning uuid, eth_address;' 
-      }
-      db.oneOrNone(sqlstr, [ethAddress, returnedBscAccount.uuid])
-      .then((clientAccount) => {
-        const returnObj = {
-          uuid: clientAccount.uuid,
-          eth_address: clientAccount.eth_address,
-          bsc_address: returnedBscAccount.address
-        }
-        callback(null, returnObj)
-      })
-      .catch(callback)
-    })
-    .catch(callback)
-  }, 
-
-  insertClientBscUpdateEthAccount(ethAddress, bscAccount, callback) {
+  insertClientBscEthAccount(ethAddress, bscAccount, callback) {
     const dbPassword = bip39.generateMnemonic()
     const password = KEY+':'+dbPassword
     const aes256private = models.encrypt(bscAccount.privateKey, password)
@@ -1031,8 +984,8 @@ const models = {
       .catch(callback)
     })
     .catch(callback)
-  }, 
-  
+  },
+
   getClientAccountForEthAddress(ethAddress, callback) {
     db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bnb_address from client_accounts_eth ca left join client_bnb_accounts cba on cba.uuid = ca.client_bnb_account_uuid where ca.eth_address = $1;', [ethAddress])
     .then((response) => {
@@ -1041,7 +994,7 @@ const models = {
     .catch(callback)
   },
 
-  insertClientBnbAccount(ethAddress, keyName, keyPassword, keyData, insert, callback) {
+  insertClientBnbAccount(ethAddress, keyName, keyPassword, keyData, callback) {
     const dbPassword = bip39.generateMnemonic()
     const password = KEY+':'+dbPassword
     const aes256seed = models.encrypt(keyData.seedPhrase, password)
@@ -1049,14 +1002,7 @@ const models = {
 
     db.oneOrNone('insert into client_bnb_accounts(uuid, public_key, address, seed_phrase, key_name, password, encr_key, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, $3, $4, $5, $6, now()) returning uuid, address;', [keyData.publicKey, keyData.address, aes256seed, keyName, aes256password, dbPassword])
     .then((returnedBnbAccount) => {
-
-      let sqlstr = ''
-      if(insert) {
-        sqlstr = 'insert into client_accounts_eth(uuid, eth_address, client_bnb_account_uuid, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, now()) returning uuid, eth_address;'
-      }else {
-        sqlstr = 'update client_accounts_eth set client_bnb_account_uuid=$2 where eth_address=$1 returning uuid, eth_address;' 
-      }
-      db.oneOrNone(sqlstr, [ethAddress, returnedBnbAccount.uuid])
+      db.oneOrNone('insert into client_accounts_eth(uuid, eth_address, client_bnb_account_uuid, created) values (md5(random()::text || clock_timestamp()::text)::uuid, $1, $2, now()) returning uuid, eth_address;', [ethAddress, returnedBnbAccount.uuid])
       .then((clientAccount) => {
         const returnObj = {
           uuid: clientAccount.uuid,
@@ -1666,7 +1612,7 @@ const models = {
     //console.log('********** => ', n++);
     //console.log('**********\n', swap);
 
-    eth.sendTransaction(tokenInfo.erc20_address, address.private_key_decrypted, tokenInfo.eth_address, swap.eth_address, swap.amount, (err, swapResult) => {
+    eth.sendTransaction(tokenInfo.erc20_address, address.private_key_decrypted, tokenInfo.eth_address, swap.eth_address, swap.amount * 1e6, (err, swapResult) => {
       if(err) {
         console.log("eth send error =>\n", err)
 
@@ -1783,7 +1729,6 @@ const models = {
         models.processSwapE2BSC(swap, tokenInfo, address, callbackInner)
       }, (err, swapResults) => {
         if(err) {
-          console.log("processSwapE2BSC result error => \n", swapResults) 
           return callback(err)
         }
         console.log("processSwapE2BSC result => \n", swapResults)
@@ -1938,8 +1883,6 @@ const models = {
     return true
   },
 
-
-
   getClientAccountForUuidE2B(uuid, callback) {
     db.oneOrNone('select ca.uuid, ca.bnb_address, cea.address as eth_address from client_accounts_bnb ca left join client_eth_accounts cea on cea.uuid = ca.client_eth_account_uuid where ca.uuid = $1;', [uuid])
     .then((response) => {
@@ -1957,10 +1900,7 @@ const models = {
   },
 
   getClientAccountForUuidBSC2E(uuid, callback) {
-    db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bsc_address from client_accounts_eth ca \
-    left join client_bsc_accounts cba on cba.uuid = ca.client_bsc_account_uuid where \
-    ca.uuid = $1 \
-    and ca.client_bsc_account_uuid is not null;', [uuid])
+    db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bsc_address from client_accounts_eth ca left join client_bsc_accounts cba on cba.uuid = ca.client_bsc_account_uuid where ca.uuid = $1;', [uuid])
     .then((response) => {
       callback(null, response)
     })
@@ -1968,10 +1908,7 @@ const models = {
   },
 
   getClientAccountForUuidB2E(uuid, callback) {
-    db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bnb_address from client_accounts_eth ca \
-    left join client_bnb_accounts cba on cba.uuid = ca.client_bnb_account_uuid where \
-    ca.uuid = $1 \
-    and ca.client_bnb_account_uuid is not null;', [uuid])
+    db.oneOrNone('select ca.uuid, ca.eth_address, cba.address as bnb_address from client_accounts_eth ca left join client_bnb_accounts cba on cba.uuid = ca.client_bnb_account_uuid where ca.uuid = $1;', [uuid])
     .then((response) => {
       callback(null, response)
     })
