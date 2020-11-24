@@ -1,0 +1,327 @@
+swagger: '2.0'
+info:
+  version: 0.0.1
+  title: GYEN Bridge (PoC)
+  description: ( Token bridging ERC20 <-> BEP2, ERC20 <-> BEP20 )
+host: 127.0.0.1:8000
+x-google-endpoints:
+  - name: 127.0.0.1:8000
+    target: 127.0.0.1:8000
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+tags: 
+  - name: bridge
+    description: bep2<->ecr20, bep20<->ber20
+definitions:
+  validationError:
+    type: object
+    properties:
+      success:
+        type: integer
+        example: 0
+      message:
+        type: string
+        example: Invalid parameters
+  symbol:
+    type: string
+    enum: [ZUSD, GYEN]
+    example: ZUSD
+  direction:
+    type: string
+    enum: [EthereumToBinance, BinanceToEthereum, EthereumToBSC, BSCToEthereum]
+    example: BSCToEthereum    
+  role:
+    type: string
+    enum: ["owner", "minterAdmin", "admin", "minter", "capper", "prohibiter", "pauser", "broker", "retailer", "burner", "burnerManager", "deployer"]
+    example: "minter"
+  readyTransaction:
+    type: object
+    properties:
+      id:
+        type: string
+      from:
+        type: string
+        example: "0x3faa95d233fa320135e80acca8d992fc548d689f"
+      to:
+        type: string
+        example: "0x3faa95d233fa320135e80acca8d992fc548d689f"
+      data:
+        type: string
+      nonce:
+        type: integer
+        example: 9
+      gasLimit:
+        type: integer
+        example: 100000
+      gasPrice:
+        type: integer
+        example: 20000000000
+  options:
+    type: object
+    properties:
+      gasPrice:
+        type: integer
+        example: 20000000000
+  eventName:
+    type: string
+    enum: ["Mint", "Transfer", "Allowance", "Burn", "Cap", "Pause", "Prohibit", "OwnerChanged", "AdminChanged", "MinterAdminChanged", "MinterChanged", "CapperChanged", "PauserChanged", "ProhibiterChanged"]
+  event:
+    type: object
+    properties:
+      address:
+        type: string
+        example: "0x3faa95d233fa320135e80acca8d992fc548d689f"
+      data:
+        type: string
+        example: 0x
+      blockNumber:
+        type: integer
+        example: 8077181
+      blockHash:
+        type: string
+      transactionIndex:
+        type: integer
+      transactionHash:
+        type: string
+        example: "0x3e9613351251e9757b59cb03dad89556af604d88777892182511d45b4c5f53e9"
+      logIndex:
+        type: integer
+      name:
+        $ref: "#/definitions/eventName"
+      args:
+       type: array
+       items:
+        type: object
+        properties:
+          key:
+            type: string
+  log:
+    type: object
+    properties:
+      address:
+        type: string
+        example: "0x3faa95d233fa320135e80acca8d992fc548d689f"
+      data:
+        type: string
+        example: 0x
+      topics:
+        type: array
+        items:
+          type: string
+          example: "0x09e48df7857bd0c1e0d31bb8a85d42cf1874817895f171c917f6ee2cea73ec20"
+paths:
+  /api/v1/fees:
+    get:
+      operationId: fees
+      tags:
+        - bridge
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters
+  /api/v1/tokens:
+    get:
+      operationId: getTokens
+      tags:
+        - bridge
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters
+  /api/v1/tokens/{uuid}:
+    get:
+      operationId: getTokenbyUUID
+      tags:
+        - bridge
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: example "a22e494e-f670-12e1-08d3-72f623b24a4f"
+        400:
+          description: invalid parameters          
+  /api/v1/getBEP20Info:
+    post:
+      operationId: getBEP20Info
+      tags:
+        - bridge
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            properties:
+              contract_address:
+                type: string
+                example: "0xdea5f7ed8f302e0cce1a74bbe69b27be03683206"
+            required:
+              - contract_address
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters
+  /api/v1/getERC20Info:
+    post:
+      operationId: getERC20Info
+      tags:
+        - bridge
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            properties:
+              contract_address:
+                type: string
+                example: "0x43668d7537826117b493af74baa74fcb3a02149b"
+            required:
+              - contract_address
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters
+  /api/v1/getEthBalances:
+    post:
+      operationId: getEthBalances
+      tags:
+        - bridge
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            properties:
+              eth_address:
+                type: string
+                example: "0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6"
+              token_uuid:
+                type: string
+                example: "a22e494e-f670-12e1-08d3-72f623b24a4f"     
+            required:
+              - eth_address
+              - token_uuid
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters
+  /api/v1/getBscBalances:
+    post:
+      operationId: getBscBalances
+      tags:
+        - bridge
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            properties:
+              bsc_address:
+                type: string
+                example: "0x7803E391addeEec300853d76469F6408af6DbfaB"
+              token_uuid:
+                type: string
+                example: "a22e494e-f670-12e1-08d3-72f623b24a4f"     
+            required:
+              - bsc_address
+              - token_uuid
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters
+  /api/v1/getBnbBalances:
+    post:
+      operationId: getBnbBalances
+      tags:
+        - bridge
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            properties:
+              bnb_address:
+                type: string
+                example: "tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs"
+              token_uuid:
+                type: string
+                example: "a22e494e-f670-12e1-08d3-72f623b24a4f"     
+            required:
+              - bnb_address
+              - token_uuid
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters
+  /api/v1/swaps:
+    post:
+      operationId: swaps
+      tags:
+        - bridge
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              bnb_address:
+                type: string
+                example: "tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs"
+              eth_address:
+                type: string
+                example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+              bsc_address:
+                type: string
+                example: "0x687422eEA2cB73B5d3e242bA5456b782919AFc85"
+              direction:
+                $ref: "#/definitions/direction"     
+            required:
+              - direction
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters
+  /api/v1/finalizeSwap:
+    post:
+      operationId: finalizeSwap
+      tags:
+        - bridge
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            properties:
+              uuid:
+                type: string
+                example: "6df3e5a6-8094-4593-62ea-7d610bf17f71"
+              token_uuid:
+                type: string
+                example: "a22e494e-f670-12e1-08d3-72f623b24a4f"     
+              direction:
+                $ref: "#/definitions/direction"     
+            required:
+              - direction
+              - uuid
+              - token_uuid
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: invalid parameters           
+  

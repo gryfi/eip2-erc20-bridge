@@ -30,8 +30,8 @@ router.get('/api/v1/listProposals/:uuid', bodyParser.json(), models.getListPropo
 router.post('/api/v1/decrypt', bodyParser.json(), models.decryptCall)
 
 router.post('/api/v1/getBnbBalances', bodyParser.json(), models.getBnbBalance)
-router.post('/api/v1/getethBalances', bodyParser.json(), models.getEthBalance)
-router.post('/api/v1/getbscBalances', bodyParser.json(), models.getBscBalance)
+router.post('/api/v1/getEthBalances', bodyParser.json(), models.getEthBalance)
+router.post('/api/v1/getBscBalances', bodyParser.json(), models.getBscBalance)
 
 router.post('/api/v1/createAccountBNB', bodyParser.json(), models.createAccountBNB)
 router.post('/api/v1/downloadKeystoreBNB', bodyParser.json(), models.downloadKeystoreBNB)
