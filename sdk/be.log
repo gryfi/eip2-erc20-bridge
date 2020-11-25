@@ -1,177 +1,115 @@
 api.bnbridge.exchange 8000
-{ bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-[0mPOST /api/v1/getEthBalances [33m400 [0m16.243 ms - 65[0m
-{ bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-*** bnb balances=> 
- [ { free: '0.99962500',
-    frozen: '0.00000000',
-    locked: '0.00000000',
-    symbol: 'BNB' },
-  { free: '94.00000000',
-    frozen: '0.00000000',
-    locked: '0.00000000',
-    symbol: 'GYEN-3C8' } ]
-[0mPOST /api/v1/getBnbBalances [32m200 [0m1037.060 ms - 92[0m
-[0mGET /api/v1/tokens [32m200 [0m10.165 ms - 661[0m
-{ eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-BigNumber { _hex: '0x14f262d7ee' }
-[0mPOST /api/v1/getEthBalances [32m200 [0m1043.022 ms - 98[0m
-{ eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
-[0mPOST /api/v1/getEthBalances [33m400 [0m0.520 ms - 64[0m
-{ eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-BigNumber { _hex: '0x14f262d7ee' }
-[0mPOST /api/v1/getEthBalances [32m200 [0m392.522 ms - 98[0m
-{ bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-select token info: => { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
-  name: 'GYEN test',
-  symbol: 'GYEN',
-  unique_symbol: 'GYEN-3C8',
-  total_supply: '1000000',
-  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
-  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
-  mintable: null,
-  fee_per_swap: null,
-  minimum_swap_amount: null,
-  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
-  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
-  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
-BigNumber { _hex: '0x12f289812610c5fa7f00' }
-[0mPOST /api/v1/getbscBalances [32m200 [0m58.169 ms - 95[0m
-{ bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-select token info: => { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
-  name: 'GYEN test',
-  symbol: 'GYEN',
-  unique_symbol: 'GYEN-3C8',
-  total_supply: '1000000',
-  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
-  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
-  mintable: null,
-  fee_per_swap: null,
-  minimum_swap_amount: null,
-  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
-  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
-  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
-BigNumber { _hex: '0x12f289812610c5fa7f00' }
-[0mPOST /api/v1/getBscBalances [32m200 [0m23.648 ms - 95[0m
-{ bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-*** bnb balances=> 
- [ { free: '94.00000000',
-    frozen: '0.00000000',
-    locked: '0.00000000',
-    symbol: 'GYEN-3C8' },
-  { free: '0.99962500',
-    frozen: '0.00000000',
-    locked: '0.00000000',
-    symbol: 'BNB' } ]
-[0mPOST /api/v1/getBnbBalances [32m200 [0m874.108 ms - 92[0m
-{ bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-*** bnb balances=> 
- [ { free: '0.99962500',
-    frozen: '0.00000000',
-    locked: '0.00000000',
-    symbol: 'BNB' },
-  { free: '94.00000000',
-    frozen: '0.00000000',
-    locked: '0.00000000',
-    symbol: 'GYEN-3C8' } ]
-[0mPOST /api/v1/getBnbBalances [32m200 [0m547.573 ms - 92[0m
-[0mGET /api/v1/createAccountBNB [32m200 [0m0.260 ms - -[0m
-{ direction: 'BSCToEthereum',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85' }
-getClientAccountForEthAddressBSC start
-****=> 
- { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-  bsc_address: '0x6dE89383F755691e397b77975211a6a68Fc67C74' }
-{ uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-  bsc_address: '0x6dE89383F755691e397b77975211a6a68Fc67C74' }
-[0mPOST /api/v1/swaps [32m200 [0m8.094 ms - 204[0m
-{ eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-  direction: 'BSCToEthereum' }
-getClientAccountForEthAddressBSC start
-****=> 
- { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-  bsc_address: '0x6dE89383F755691e397b77975211a6a68Fc67C74' }
-{ uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-  bsc_address: '0x6dE89383F755691e397b77975211a6a68Fc67C74' }
-[0mPOST /api/v1/swaps [32m200 [0m6.193 ms - 204[0m
-{ direction: 'BSCToEthereum',
-  uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f' }
-clientAccount:=>
- { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-  bsc_address: '0x6dE89383F755691e397b77975211a6a68Fc67C74' }
-tokenInfo:=>
- { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
-  name: 'GYEN test',
-  symbol: 'GYEN',
-  unique_symbol: 'GYEN-3C8',
-  total_supply: '1000000',
-  fee_per_swap: null,
-  minimum_swap_amount: null,
-  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
-  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
-  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
-  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
-  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
-0xab407c9eb0520000
-amount 2=>
- 12.34
-ethTransactions:=>
- [ { from: '0xdC229dB017a513CCFa070EA3b4edE71C4D8C1084',
-    to: '0x6dE89383F755691e397b77975211a6a68Fc67C74',
-    amount: 12.34,
-    transactionHash:
-     '0x46a95b90f2220cfd8d9b51fd1577231ee44d93b991c9b1b7f6b3258ab2193157' } ]
-swaps:=>
- [ { uuid: '9cd2c75b-cb12-aa5e-0c0a-d1946d7bcc27',
-    token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
-    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-    bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
-    bsc_address: null,
-    amount: '2.19000000',
-    deposit_transaction_hash:
-     '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60',
-    transfer_transaction_hash:
-     '0xefe01029d87dd810a0aac9f4b06aaa7b3dbe071ebe931db1cabaa9f485332a6f',
-    processed: null,
-    created: 2020-11-20T03:44:04.880Z,
-    client_account_uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-    direction: 'BinanceToEthereum' },
-  { uuid: '9b58fd99-03d2-3372-906e-96181780e2b7',
-    token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
-    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-    bnb_address: null,
-    bsc_address: '0xdC229dB017a513CCFa070EA3b4edE71C4D8C1084',
-    amount: '12.34',
-    deposit_transaction_hash:
-     '0x46a95b90f2220cfd8d9b51fd1577231ee44d93b991c9b1b7f6b3258ab2193157',
-    transfer_transaction_hash:
-     '0xe2f014d07144a5327ac7e6e5a907048bb3879aa2cf0efbb570bd506915cec742',
-    processed: null,
-    created: 2020-11-20T03:49:09.403Z,
-    client_account_uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-    direction: 'BSCToEthereum' } ]
-[0mPOST /api/v1/finalizeSwap [33m400 [0m302.936 ms - 73[0m
-{ uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
+{ bnb_address: 'tbnb1vu65rquqjasln47th22nky2jlu8tyr8y9ah4th',
+  direction: 'EthereumToBinance' }
+deposit account address:  Account {
+  address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+  privateKey:
+   '0x0a29062e6a085d57b3ef2be4824b5ef1dd6535695c7f7b451eab7c7fc2cae2b7',
+  accounts:
+   Accounts {
+     providerResolver:
+      ProviderResolver { providersModuleFactory: ProvidersModuleFactory {} },
+     givenProvider: null,
+     _currentProvider:
+      HttpProvider {
+        host:
+         'https://ropsten.infura.io/v3/7e1994c8834b4c61814e608fbb640810',
+        timeout: 0,
+        headers: undefined,
+        withCredentials: false,
+        connected: true,
+        providersModuleFactory: ProvidersModuleFactory {},
+        agent: [Object] },
+     _defaultAccount: undefined,
+     _defaultBlock: 'latest',
+     _transactionBlockTimeout: 50,
+     _transactionConfirmationBlocks: 24,
+     _transactionPollingTimeout: 750,
+     _defaultGasPrice: undefined,
+     _defaultGas: undefined,
+     BatchRequest: [Function],
+     utils:
+      { BN: [Function],
+        randomHex: [Function: randomHex],
+        asciiToHex: [Function: asciiToHex],
+        bytesToHex: [Function: bytesToHex],
+        checkAddressChecksum: [Function: checkAddressChecksum],
+        fromAscii: [Function: asciiToHex],
+        fromDecimal: [Function: numberToHex],
+        fromUtf8: [Function: utf8ToHex],
+        fromWei: [Function: fromWei],
+        getSignatureParameters: [Function: getSignatureParameters],
+        getUnitValue: [Function: getUnitValue],
+        hexToAscii: [Function: hexToAscii],
+        hexToBytes: [Function: hexToBytes],
+        hexToNumber: [Function: hexToNumber],
+        hexToNumberString: [Function: hexToNumberString],
+        hexToString: [Function: hexToUtf8],
+        hexToUtf8: [Function: hexToUtf8],
+        isAddress: [Function: isAddress],
+        isBN: [Function: isBN],
+        isBloom: [Function: isBloom],
+        isHex: [Function: isHex],
+        isHexStrict: [Function: isHexStrict],
+        isTopic: [Function: isTopic],
+        jsonInterfaceMethodToString: [Function: jsonInterfaceMethodToString],
+        keccak256: [Function],
+        numberToHex: [Function: numberToHex],
+        padLeft: [Function: leftPad],
+        padRight: [Function: rightPad],
+        sha3: [Function],
+        soliditySha3: [Function: soliditySha3],
+        stringToHex: [Function: utf8ToHex],
+        stripHexPrefix: [Function: stripHexPrefix],
+        toAscii: [Function: hexToAscii],
+        toBN: [Function: toBN],
+        toChecksumAddress: [Function: toChecksumAddress],
+        toDecimal: [Function: hexToNumber],
+        toHex: [Function: toHex],
+        toTwosComplement: [Function: toTwosComplement],
+        toUtf8: [Function: hexToUtf8],
+        toWei: [Function: toWei],
+        utf8ToHex: [Function: utf8ToHex] },
+     formatters:
+      { outputBigNumberFormatter: [Function: outputBigNumberFormatter],
+        isPredefinedBlockNumber: [Function: isPredefinedBlockNumber],
+        inputDefaultBlockNumberFormatter: [Function: inputDefaultBlockNumberFormatter],
+        inputBlockNumberFormatter: [Function: inputBlockNumberFormatter],
+        txInputFormatter: [Function: txInputFormatter],
+        inputCallFormatter: [Function: inputCallFormatter],
+        inputTransactionFormatter: [Function: inputTransactionFormatter],
+        inputSignFormatter: [Function: inputSignFormatter],
+        outputTransactionFormatter: [Function: outputTransactionFormatter],
+        outputTransactionReceiptFormatter: [Function: outputTransactionReceiptFormatter],
+        outputBlockFormatter: [Function: outputBlockFormatter],
+        inputLogFormatter: [Function: inputLogFormatter],
+        outputLogFormatter: [Function: outputLogFormatter],
+        inputPostFormatter: [Function: inputPostFormatter],
+        outputPostFormatter: [Function: outputPostFormatter],
+        inputAddressFormatter: [Function: inputAddressFormatter],
+        outputSyncingFormatter: [Function: outputSyncingFormatter] },
+     _transactionSigner: TransactionSigner { utils: [Object], formatters: [Object] },
+     defaultKeyName: 'web3js_wallet',
+     accounts: {},
+     accountsIndex: 0,
+     wallet:
+      Wallet {
+        utils: [Object],
+        accountsModule: [Circular],
+        defaultKeyName: 'web3js_wallet',
+        accounts: {},
+        accountsIndex: 0 } } }
+{ uuid: 'b8103cdb-f71e-4caa-adb9-97b61e5a9586',
+  bnb_address: 'tbnb1vu65rquqjasln47th22nky2jlu8tyr8y9ah4th',
+  eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75' }
+[0mPOST /api/v1/swaps [32m200 [0m48.560 ms - 205[0m
+{ uuid: 'b8103cdb-f71e-4caa-adb9-97b61e5a9586',
   token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
-  direction: 'BSCToEthereum' }
+  direction: 'EthereumToBinance' }
 clientAccount:=>
- { uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-  bsc_address: '0x6dE89383F755691e397b77975211a6a68Fc67C74' }
+ { uuid: 'b8103cdb-f71e-4caa-adb9-97b61e5a9586',
+  bnb_address: 'tbnb1vu65rquqjasln47th22nky2jlu8tyr8y9ah4th',
+  eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75' }
 tokenInfo:=>
  { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
   name: 'GYEN test',
@@ -185,274 +123,558 @@ tokenInfo:=>
   bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
   bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
   eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
-0xab407c9eb0520000
-amount 2=>
- 12.34
 ethTransactions:=>
- [ { from: '0xdC229dB017a513CCFa070EA3b4edE71C4D8C1084',
-    to: '0x6dE89383F755691e397b77975211a6a68Fc67C74',
-    amount: 12.34,
-    transactionHash:
-     '0x46a95b90f2220cfd8d9b51fd1577231ee44d93b991c9b1b7f6b3258ab2193157' } ]
+ []
 swaps:=>
- [ { uuid: '9cd2c75b-cb12-aa5e-0c0a-d1946d7bcc27',
-    token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
-    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-    bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
-    bsc_address: null,
-    amount: '2.19000000',
-    deposit_transaction_hash:
-     '812A7B59065986F5C04016A7963D5D865D12033EE4F107949807556AFE44FE60',
-    transfer_transaction_hash:
-     '0xefe01029d87dd810a0aac9f4b06aaa7b3dbe071ebe931db1cabaa9f485332a6f',
-    processed: null,
-    created: 2020-11-20T03:44:04.880Z,
-    client_account_uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-    direction: 'BinanceToEthereum' },
-  { uuid: '9b58fd99-03d2-3372-906e-96181780e2b7',
-    token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
-    eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc85',
-    bnb_address: null,
-    bsc_address: '0xdC229dB017a513CCFa070EA3b4edE71C4D8C1084',
-    amount: '12.34',
-    deposit_transaction_hash:
-     '0x46a95b90f2220cfd8d9b51fd1577231ee44d93b991c9b1b7f6b3258ab2193157',
-    transfer_transaction_hash:
-     '0xe2f014d07144a5327ac7e6e5a907048bb3879aa2cf0efbb570bd506915cec742',
-    processed: null,
-    created: 2020-11-20T03:49:09.403Z,
-    client_account_uuid: '6df3e5a6-8094-4593-62ea-7d610bf17f71',
-    direction: 'BSCToEthereum' } ]
-[0mPOST /api/v1/finalizeSwap [33m400 [0m95.632 ms - 73[0m
-[0mGET /api/v1/fees [32m200 [0m664.161 ms - 265[0m
-[0mGET /api/v1/fees [32m200 [0m542.018 ms - 265[0m
-[0mGET /api/v1/tokens [36m304 [0m6.576 ms - -[0m
-contract address = 0xdea5f7ed8f302e0cce1a74bbe69b27be03683206
-start
-{ contract_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206' }
-0xdea5f7ed8f302e0cce1a74bbe69b27be03683206
-decimals: 18
-GYEN test
-name: GYEN test
-GYEN
-symbol: GYEN
-100090000000000000000000000
-total: 100090000
-{ name: 'GYEN test',
+ []
+[0mPOST /api/v1/finalizeSwap [33m400 [0m942.940 ms - 66[0m
+{ uuid: 'b8103cdb-f71e-4caa-adb9-97b61e5a9586',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  direction: 'EthereumToBinance' }
+clientAccount:=>
+ { uuid: 'b8103cdb-f71e-4caa-adb9-97b61e5a9586',
+  bnb_address: 'tbnb1vu65rquqjasln47th22nky2jlu8tyr8y9ah4th',
+  eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75' }
+tokenInfo:=>
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
   symbol: 'GYEN',
-  decimals: '18',
-  total_supply: 100090000,
-  address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206' }
-[0mPOST /api/v1/getBEP20Info [32m200 [0m271.709 ms - 171[0m
-{ eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc86',
-  direction: 'BSCToEthereum' }
-getClientAccountForEthAddressBSC start
-****=> 
- null
-deposit account address:  Account {
-  address: '0x12D64F65eD619BD6c8BcF3e11A5796bbaDB54770',
-  privateKey:
-   '0x05c69b6ef06d3878e45318c2cce75ba40acd29249a0f51e04c4b6c2b0b9dcb1a',
-  accounts:
-   Accounts {
-     providerResolver:
-      ProviderResolver { providersModuleFactory: ProvidersModuleFactory {} },
-     givenProvider: null,
-     _currentProvider:
-      HttpProvider {
-        host: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+amount 2=>
+ 5.67
+ethTransactions:=>
+ [ { from: '0xE6b48d76Bc4805ABF61F38A55F1D7C362c8BfdA8',
+    to: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+    amount: 5.67,
+    transactionHash:
+     '0x618b1f4eca890a2f83cec1a72ee6a43eeeedd92827030ca06e742bd2c7d117f7' } ]
+swaps:=>
+ []
+insertSwapE2B response=>
+ { uuid: '04403c05-45d7-f3ea-b3d0-0ca9a0b3d7fc',
+  eth_address: '0xE6b48d76Bc4805ABF61F38A55F1D7C362c8BfdA8',
+  bnb_address: 'tbnb1vu65rquqjasln47th22nky2jlu8tyr8y9ah4th',
+  amount: '5.67',
+  deposit_transaction_hash:
+   '0x618b1f4eca890a2f83cec1a72ee6a43eeeedd92827030ca06e742bd2c7d117f7' }
+
+insertSwap result => 
+ [ { uuid: '04403c05-45d7-f3ea-b3d0-0ca9a0b3d7fc',
+    eth_address: '0xE6b48d76Bc4805ABF61F38A55F1D7C362c8BfdA8',
+    bnb_address: 'tbnb1vu65rquqjasln47th22nky2jlu8tyr8y9ah4th',
+    amount: '5.67',
+    deposit_transaction_hash:
+     '0x618b1f4eca890a2f83cec1a72ee6a43eeeedd92827030ca06e742bd2c7d117f7' } ]
+key bnb:=>
+ { key_name: 'ST_GYEN_key',
+  mnemonic:
+   'pilot mother inspire theme observe minimum gaze pledge obscure spread fan leave dog wheat first arrest guide list pull throw venture topic viable inquiry',
+  password: '8da2b1336605a7ce3dcf98d4039d4a8dd2df47f5',
+  encr_key:
+   'large step depth pretty hospital inner luxury volume lift school shell uphold',
+  password_decrypted: 'uQrpyshTHRP5bZvsE5sq' }
+initChain start undefined
+*** init sequence over
+
+*** mutex start ... ...
+*** bnb transfer account =>  0
+sequenceURL =>  https://testnet-dex.binance.org/api/v1/account/tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs/sequence
+sequence =>  1
+g_sequence =>  0
+*** bnb transfer status 200
+
+**************bnb transfer => ****
+ { result:
+   [ { code: 0,
+       hash:
+        'EB9CB3D2CE511D536568FBD1158C182E59EF94CF49A060790A6EAF838EDE111E',
+       log: 'Msg 0: ',
+       ok: true } ],
+  status: 200 }
+ *** updateWithTransferTransactionHash start
+
+[0mPOST /api/v1/finalizeSwap [32m200 [0m524.548 ms - 373[0m
+sequence 1 =>  2
+sequence global =>  1
+sequence 2 2
+released
+{ eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+  direction: 'BinanceToEthereum' }
+cd /Users/usr0102794/binance/node-binary/cli/testnet/0.7.2/mac/
+./tbnbcli keys add 0x11386bcFc1BccD6CED6b16e652750982E125Cc75_key
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+bash-3.2$ cd /Users/usr0102794/binance/node-binary/cli/testnet/0.7.2/mac/
+bash-3.2$ ./tbnbcli keys add 0x11386bcFc1BccD6CED6b16e652750982E125Cc75_key
+Enter a passphrase for your key:nMtuN3pPn0Hen7cGeEyO
+
+Repeat the passphrase:nMtuN3pPn0Hen7cGeEyO
+
+NAME:	TYPE:	ADDRESS:						PUBKEY:
+0x11386bcFc1BccD6CED6b16e652750982E125Cc75_key	local	tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd	bnbp1addwnpepqgc5kkdhgqulcprvue0v78pxuuyhey8yh9tfpudxkgkrw7sfluvzkmc5yd8
+**Important** write this seed phrase in a safe place.
+It is the only way to recover your account if you ever forget your password.
+
+blind angle hair tuna maid merit canal enrich garment abuse lazy auction target deer upper direct element october kind pet lyrics step crystal ask
+==address==  tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd
+[ '0x11386bcFc1BccD6CED6b16e652750982E125Cc75_key',
+  'local',
+  'tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd',
+  'bnbp1addwnpepqgc5kkdhgqulcprvue0v78pxuuyhey8yh9tfpudxkgkrw7sfluvzkmc5yd8\r' ]
+==publicKey==  bnbp1addwnpepqgc5kkdhgqulcprvue0v78pxuuyhey8yh9tfpudxkgkrw7sfluvzkmc5yd8
+==seedPhrase==  blind angle hair tuna maid merit canal enrich garment abuse lazy auction target deer upper direct element october kind pet lyrics step crystal ask
+exit
+bash-3.2$ exit
+exit
+[0mPOST /api/v1/swaps [32m200 [0m493.337 ms - 205[0m
+{ uuid: '3d0abca4-a7c9-99ef-8f70-de5c4affa4d1',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  direction: 'BinanceToEthereum' }
+clientAccount => 
+ { uuid: '3d0abca4-a7c9-99ef-8f70-de5c4affa4d1',
+  eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+  bnb_address: 'tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd' }
+tokenInfo => 
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
+  symbol: 'GYEN',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+bnb get txs
+ https://testnet-dex.binance.org/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE
+{ Error: Request failed with status code 504
+    at createError (/Users/usr0102794/opengsn/bnbridge.exchange/sdk/node_modules/axios/lib/core/createError.js:16:15)
+    at settle (/Users/usr0102794/opengsn/bnbridge.exchange/sdk/node_modules/axios/lib/core/settle.js:18:12)
+    at IncomingMessage.handleStreamEnd (/Users/usr0102794/opengsn/bnbridge.exchange/sdk/node_modules/axios/lib/adapters/http.js:202:11)
+    at IncomingMessage.emit (events.js:203:15)
+    at endReadableNT (_stream_readable.js:1145:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19)
+  config:
+   { adapter: [Function: httpAdapter],
+     transformRequest: { '0': [Function: transformRequest] },
+     transformResponse: { '0': [Function: transformResponse] },
+     timeout: 0,
+     xsrfCookieName: 'XSRF-TOKEN',
+     xsrfHeaderName: 'X-XSRF-TOKEN',
+     maxContentLength: -1,
+     validateStatus: [Function: validateStatus],
+     headers:
+      { Accept: 'application/json, text/plain, */*',
+        'User-Agent': 'axios/0.18.1' },
+     method: 'get',
+     baseURL: 'https://testnet-dex.binance.org/',
+     url:
+      'https://testnet-dex.binance.org/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE',
+     data: undefined },
+  request:
+   ClientRequest {
+     _events:
+      [Object: null prototype] {
+        socket: [Function],
+        abort: [Function],
+        aborted: [Function],
+        error: [Function],
+        timeout: [Function],
+        prefinish: [Function: requestOnPrefinish] },
+     _eventsCount: 6,
+     _maxListeners: undefined,
+     output: [],
+     outputEncodings: [],
+     outputCallbacks: [],
+     outputSize: 0,
+     writable: true,
+     _last: true,
+     chunkedEncoding: false,
+     shouldKeepAlive: true,
+     useChunkedEncodingByDefault: false,
+     sendDate: false,
+     _removedConnection: false,
+     _removedContLen: false,
+     _removedTE: false,
+     _contentLength: 0,
+     _hasBody: true,
+     _trailer: '',
+     finished: true,
+     _headerSent: true,
+     socket:
+      TLSSocket {
+        _tlsOptions: [Object],
+        _secureEstablished: true,
+        _securePending: false,
+        _newSessionPending: false,
+        _controlReleased: true,
+        _SNICallback: null,
+        servername: 'testnet-dex.binance.org',
+        alpnProtocol: false,
+        authorized: true,
+        authorizationError: null,
+        encrypted: true,
+        _events: [Object],
+        _eventsCount: 8,
+        connecting: false,
+        _hadError: false,
+        _handle: null,
+        _parent: null,
+        _host: 'testnet-dex.binance.org',
+        _readableState: [ReadableState],
+        readable: false,
+        _maxListeners: undefined,
+        _writableState: [WritableState],
+        writable: false,
+        allowHalfOpen: false,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: undefined,
+        _server: null,
+        ssl: null,
+        _requestCert: true,
+        _rejectUnauthorized: true,
+        parser: null,
+        _httpMessage: [Circular],
+        [Symbol(res)]: [TLSWrap],
+        [Symbol(asyncId)]: 509,
+        [Symbol(lastWriteQueueSize)]: 0,
+        [Symbol(timeout)]: null,
+        [Symbol(kBytesRead)]: 1392,
+        [Symbol(kBytesWritten)]: 259,
+        [Symbol(connect-options)]: [Object] },
+     connection:
+      TLSSocket {
+        _tlsOptions: [Object],
+        _secureEstablished: true,
+        _securePending: false,
+        _newSessionPending: false,
+        _controlReleased: true,
+        _SNICallback: null,
+        servername: 'testnet-dex.binance.org',
+        alpnProtocol: false,
+        authorized: true,
+        authorizationError: null,
+        encrypted: true,
+        _events: [Object],
+        _eventsCount: 8,
+        connecting: false,
+        _hadError: false,
+        _handle: null,
+        _parent: null,
+        _host: 'testnet-dex.binance.org',
+        _readableState: [ReadableState],
+        readable: false,
+        _maxListeners: undefined,
+        _writableState: [WritableState],
+        writable: false,
+        allowHalfOpen: false,
+        _sockname: null,
+        _pendingData: null,
+        _pendingEncoding: '',
+        server: undefined,
+        _server: null,
+        ssl: null,
+        _requestCert: true,
+        _rejectUnauthorized: true,
+        parser: null,
+        _httpMessage: [Circular],
+        [Symbol(res)]: [TLSWrap],
+        [Symbol(asyncId)]: 509,
+        [Symbol(lastWriteQueueSize)]: 0,
+        [Symbol(timeout)]: null,
+        [Symbol(kBytesRead)]: 1392,
+        [Symbol(kBytesWritten)]: 259,
+        [Symbol(connect-options)]: [Object] },
+     _header:
+      'GET /api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE HTTP/1.1\r\nAccept: application/json, text/plain, */*\r\nUser-Agent: axios/0.18.1\r\nHost: testnet-dex.binance.org\r\nConnection: keep-alive\r\n\r\n',
+     _onPendingData: [Function: noopPendingOutput],
+     agent:
+      Agent {
+        _events: [Object],
+        _eventsCount: 1,
+        _maxListeners: undefined,
+        defaultPort: 443,
+        protocol: 'https:',
+        options: [Object],
+        requests: {},
+        sockets: [Object],
+        freeSockets: {},
+        keepAliveMsecs: 1000,
+        keepAlive: false,
+        maxSockets: 50,
+        maxFreeSockets: 256,
+        maxCachedSessions: 100,
+        _sessionCache: [Object] },
+     socketPath: undefined,
+     timeout: undefined,
+     method: 'GET',
+     insecureHTTPParser: undefined,
+     path:
+      '/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE',
+     _ended: true,
+     res:
+      IncomingMessage {
+        _readableState: [ReadableState],
+        readable: false,
+        _events: [Object],
+        _eventsCount: 3,
+        _maxListeners: undefined,
+        socket: [TLSSocket],
+        connection: [TLSSocket],
+        httpVersionMajor: 1,
+        httpVersionMinor: 1,
+        httpVersion: '1.1',
+        complete: true,
+        headers: [Object],
+        rawHeaders: [Array],
+        trailers: {},
+        rawTrailers: [],
+        aborted: false,
+        upgrade: false,
+        url: '',
+        method: null,
+        statusCode: 504,
+        statusMessage: 'Gateway Time-out',
+        client: [TLSSocket],
+        _consuming: false,
+        _dumped: false,
+        req: [Circular],
+        responseUrl:
+         'https://testnet-dex.binance.org/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE',
+        redirects: [] },
+     aborted: undefined,
+     timeoutCb: null,
+     upgradeOrConnect: false,
+     parser: null,
+     maxHeadersCount: null,
+     _redirectable:
+      Writable {
+        _writableState: [WritableState],
+        writable: true,
+        _events: [Object],
+        _eventsCount: 2,
+        _maxListeners: undefined,
+        _options: [Object],
+        _redirectCount: 0,
+        _redirects: [],
+        _requestBodyLength: 0,
+        _requestBodyBuffers: [],
+        _onNativeResponse: [Function],
+        _currentRequest: [Circular],
+        _currentUrl:
+         'https://testnet-dex.binance.org/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE' },
+     [Symbol(isCorked)]: false,
+     [Symbol(outHeadersKey)]:
+      [Object: null prototype] { accept: [Array], 'user-agent': [Array], host: [Array] } },
+  response:
+   { status: 504,
+     statusText: 'Gateway Time-out',
+     headers:
+      { 'content-type': 'text/html',
+        'content-length': '1033',
+        connection: 'keep-alive',
+        server: 'CloudFront',
+        date: 'Tue, 24 Nov 2020 13:30:01 GMT',
+        'x-cache': 'Error from cloudfront',
+        via:
+         '1.1 143f3613671ad03dd85713ced536f0a8.cloudfront.net (CloudFront)',
+        'x-amz-cf-pop': 'NRT20-C3',
+        'x-amz-cf-id': 'TD3DsWtvP9lI_I22vBOcsKC2r7LsEDA0k7TjdKi4a8hJRsYBwfW1ig==' },
+     config:
+      { adapter: [Function: httpAdapter],
+        transformRequest: [Object],
+        transformResponse: [Object],
         timeout: 0,
-        headers: undefined,
-        withCredentials: false,
-        connected: true,
-        providersModuleFactory: ProvidersModuleFactory {},
-        agent: [Object] },
-     _defaultAccount: undefined,
-     _defaultBlock: 'latest',
-     _transactionBlockTimeout: 50,
-     _transactionConfirmationBlocks: 24,
-     _transactionPollingTimeout: 750,
-     _defaultGasPrice: undefined,
-     _defaultGas: undefined,
-     BatchRequest: [Function],
-     utils:
-      { BN: [Function],
-        randomHex: [Function: randomHex],
-        asciiToHex: [Function: asciiToHex],
-        bytesToHex: [Function: bytesToHex],
-        checkAddressChecksum: [Function: checkAddressChecksum],
-        fromAscii: [Function: asciiToHex],
-        fromDecimal: [Function: numberToHex],
-        fromUtf8: [Function: utf8ToHex],
-        fromWei: [Function: fromWei],
-        getSignatureParameters: [Function: getSignatureParameters],
-        getUnitValue: [Function: getUnitValue],
-        hexToAscii: [Function: hexToAscii],
-        hexToBytes: [Function: hexToBytes],
-        hexToNumber: [Function: hexToNumber],
-        hexToNumberString: [Function: hexToNumberString],
-        hexToString: [Function: hexToUtf8],
-        hexToUtf8: [Function: hexToUtf8],
-        isAddress: [Function: isAddress],
-        isBN: [Function: isBN],
-        isBloom: [Function: isBloom],
-        isHex: [Function: isHex],
-        isHexStrict: [Function: isHexStrict],
-        isTopic: [Function: isTopic],
-        jsonInterfaceMethodToString: [Function: jsonInterfaceMethodToString],
-        keccak256: [Function],
-        numberToHex: [Function: numberToHex],
-        padLeft: [Function: leftPad],
-        padRight: [Function: rightPad],
-        sha3: [Function],
-        soliditySha3: [Function: soliditySha3],
-        stringToHex: [Function: utf8ToHex],
-        stripHexPrefix: [Function: stripHexPrefix],
-        toAscii: [Function: hexToAscii],
-        toBN: [Function: toBN],
-        toChecksumAddress: [Function: toChecksumAddress],
-        toDecimal: [Function: hexToNumber],
-        toHex: [Function: toHex],
-        toTwosComplement: [Function: toTwosComplement],
-        toUtf8: [Function: hexToUtf8],
-        toWei: [Function: toWei],
-        utf8ToHex: [Function: utf8ToHex] },
-     formatters:
-      { outputBigNumberFormatter: [Function: outputBigNumberFormatter],
-        isPredefinedBlockNumber: [Function: isPredefinedBlockNumber],
-        inputDefaultBlockNumberFormatter: [Function: inputDefaultBlockNumberFormatter],
-        inputBlockNumberFormatter: [Function: inputBlockNumberFormatter],
-        txInputFormatter: [Function: txInputFormatter],
-        inputCallFormatter: [Function: inputCallFormatter],
-        inputTransactionFormatter: [Function: inputTransactionFormatter],
-        inputSignFormatter: [Function: inputSignFormatter],
-        outputTransactionFormatter: [Function: outputTransactionFormatter],
-        outputTransactionReceiptFormatter: [Function: outputTransactionReceiptFormatter],
-        outputBlockFormatter: [Function: outputBlockFormatter],
-        inputLogFormatter: [Function: inputLogFormatter],
-        outputLogFormatter: [Function: outputLogFormatter],
-        inputPostFormatter: [Function: inputPostFormatter],
-        outputPostFormatter: [Function: outputPostFormatter],
-        inputAddressFormatter: [Function: inputAddressFormatter],
-        outputSyncingFormatter: [Function: outputSyncingFormatter] },
-     _transactionSigner: TransactionSigner { utils: [Object], formatters: [Object] },
-     defaultKeyName: 'web3js_wallet',
-     accounts: {},
-     accountsIndex: 0,
-     wallet:
-      Wallet {
-        utils: [Object],
-        accountsModule: [Circular],
-        defaultKeyName: 'web3js_wallet',
-        accounts: {},
-        accountsIndex: 0 } } }
-{ uuid: '77bff373-c055-2dba-d3c7-c7b2eea6185b',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc86',
-  bsc_address: '0x12D64F65eD619BD6c8BcF3e11A5796bbaDB54770' }
-[0mPOST /api/v1/swaps [32m200 [0m27.909 ms - 204[0m
-{ eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc87',
-  direction: 'BSCToEthereum' }
-getClientAccountForEthAddressBSC start
-****=> 
- null
-deposit account address:  Account {
-  address: '0x88ED17dee5730D0a3A1634ada298A80739EED9DB',
-  privateKey:
-   '0x61064dbe60cccc7e68ade7d5f7fe9b6316c952a224c7141874f4975b2577f4e5',
-  accounts:
-   Accounts {
-     providerResolver:
-      ProviderResolver { providersModuleFactory: ProvidersModuleFactory {} },
-     givenProvider: null,
-     _currentProvider:
-      HttpProvider {
-        host: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
-        timeout: 0,
-        headers: undefined,
-        withCredentials: false,
-        connected: true,
-        providersModuleFactory: ProvidersModuleFactory {},
-        agent: [Object] },
-     _defaultAccount: undefined,
-     _defaultBlock: 'latest',
-     _transactionBlockTimeout: 50,
-     _transactionConfirmationBlocks: 24,
-     _transactionPollingTimeout: 750,
-     _defaultGasPrice: undefined,
-     _defaultGas: undefined,
-     BatchRequest: [Function],
-     utils:
-      { BN: [Function],
-        randomHex: [Function: randomHex],
-        asciiToHex: [Function: asciiToHex],
-        bytesToHex: [Function: bytesToHex],
-        checkAddressChecksum: [Function: checkAddressChecksum],
-        fromAscii: [Function: asciiToHex],
-        fromDecimal: [Function: numberToHex],
-        fromUtf8: [Function: utf8ToHex],
-        fromWei: [Function: fromWei],
-        getSignatureParameters: [Function: getSignatureParameters],
-        getUnitValue: [Function: getUnitValue],
-        hexToAscii: [Function: hexToAscii],
-        hexToBytes: [Function: hexToBytes],
-        hexToNumber: [Function: hexToNumber],
-        hexToNumberString: [Function: hexToNumberString],
-        hexToString: [Function: hexToUtf8],
-        hexToUtf8: [Function: hexToUtf8],
-        isAddress: [Function: isAddress],
-        isBN: [Function: isBN],
-        isBloom: [Function: isBloom],
-        isHex: [Function: isHex],
-        isHexStrict: [Function: isHexStrict],
-        isTopic: [Function: isTopic],
-        jsonInterfaceMethodToString: [Function: jsonInterfaceMethodToString],
-        keccak256: [Function],
-        numberToHex: [Function: numberToHex],
-        padLeft: [Function: leftPad],
-        padRight: [Function: rightPad],
-        sha3: [Function],
-        soliditySha3: [Function: soliditySha3],
-        stringToHex: [Function: utf8ToHex],
-        stripHexPrefix: [Function: stripHexPrefix],
-        toAscii: [Function: hexToAscii],
-        toBN: [Function: toBN],
-        toChecksumAddress: [Function: toChecksumAddress],
-        toDecimal: [Function: hexToNumber],
-        toHex: [Function: toHex],
-        toTwosComplement: [Function: toTwosComplement],
-        toUtf8: [Function: hexToUtf8],
-        toWei: [Function: toWei],
-        utf8ToHex: [Function: utf8ToHex] },
-     formatters:
-      { outputBigNumberFormatter: [Function: outputBigNumberFormatter],
-        isPredefinedBlockNumber: [Function: isPredefinedBlockNumber],
-        inputDefaultBlockNumberFormatter: [Function: inputDefaultBlockNumberFormatter],
-        inputBlockNumberFormatter: [Function: inputBlockNumberFormatter],
-        txInputFormatter: [Function: txInputFormatter],
-        inputCallFormatter: [Function: inputCallFormatter],
-        inputTransactionFormatter: [Function: inputTransactionFormatter],
-        inputSignFormatter: [Function: inputSignFormatter],
-        outputTransactionFormatter: [Function: outputTransactionFormatter],
-        outputTransactionReceiptFormatter: [Function: outputTransactionReceiptFormatter],
-        outputBlockFormatter: [Function: outputBlockFormatter],
-        inputLogFormatter: [Function: inputLogFormatter],
-        outputLogFormatter: [Function: outputLogFormatter],
-        inputPostFormatter: [Function: inputPostFormatter],
-        outputPostFormatter: [Function: outputPostFormatter],
-        inputAddressFormatter: [Function: inputAddressFormatter],
-        outputSyncingFormatter: [Function: outputSyncingFormatter] },
-     _transactionSigner: TransactionSigner { utils: [Object], formatters: [Object] },
-     defaultKeyName: 'web3js_wallet',
-     accounts: {},
-     accountsIndex: 0,
-     wallet:
-      Wallet {
-        utils: [Object],
-        accountsModule: [Circular],
-        defaultKeyName: 'web3js_wallet',
-        accounts: {},
-        accountsIndex: 0 } } }
-{ uuid: 'cffa2c9f-6404-f242-881b-6bd548e8a06c',
-  eth_address: '0x687422eEA2cB73B5d3e242bA5456b782919AFc87',
-  bsc_address: '0x88ED17dee5730D0a3A1634ada298A80739EED9DB' }
-[0mPOST /api/v1/swaps [32m200 [0m22.971 ms - 204[0m
+        xsrfCookieName: 'XSRF-TOKEN',
+        xsrfHeaderName: 'X-XSRF-TOKEN',
+        maxContentLength: -1,
+        validateStatus: [Function: validateStatus],
+        headers: [Object],
+        method: 'get',
+        baseURL: 'https://testnet-dex.binance.org/',
+        url:
+         'https://testnet-dex.binance.org/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE',
+        data: undefined },
+     request:
+      ClientRequest {
+        _events: [Object],
+        _eventsCount: 6,
+        _maxListeners: undefined,
+        output: [],
+        outputEncodings: [],
+        outputCallbacks: [],
+        outputSize: 0,
+        writable: true,
+        _last: true,
+        chunkedEncoding: false,
+        shouldKeepAlive: true,
+        useChunkedEncodingByDefault: false,
+        sendDate: false,
+        _removedConnection: false,
+        _removedContLen: false,
+        _removedTE: false,
+        _contentLength: 0,
+        _hasBody: true,
+        _trailer: '',
+        finished: true,
+        _headerSent: true,
+        socket: [TLSSocket],
+        connection: [TLSSocket],
+        _header:
+         'GET /api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE HTTP/1.1\r\nAccept: application/json, text/plain, */*\r\nUser-Agent: axios/0.18.1\r\nHost: testnet-dex.binance.org\r\nConnection: keep-alive\r\n\r\n',
+        _onPendingData: [Function: noopPendingOutput],
+        agent: [Agent],
+        socketPath: undefined,
+        timeout: undefined,
+        method: 'GET',
+        insecureHTTPParser: undefined,
+        path:
+         '/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE',
+        _ended: true,
+        res: [IncomingMessage],
+        aborted: undefined,
+        timeoutCb: null,
+        upgradeOrConnect: false,
+        parser: null,
+        maxHeadersCount: null,
+        _redirectable: [Writable],
+        [Symbol(isCorked)]: false,
+        [Symbol(outHeadersKey)]: [Object] },
+     data:
+      '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">\n<HTML><HEAD><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">\n<TITLE>ERROR: The request could not be satisfied</TITLE>\n</HEAD><BODY>\n<H1>504 ERROR</H1>\n<H2>The request could not be satisfied.</H2>\n<HR noshade size="1px">\nCloudFront attempted to establish a connection with the origin, but either the attempt failed or the origin closed the connection.\nWe can\'t connect to the server for this app or website at this time. There might be too much traffic or a configuration error. Try again later, or contact the app or website owner.\n<BR clear="all">\nIf you provide content to customers through CloudFront, you can find steps to troubleshoot and help prevent this error by reviewing the CloudFront documentation.\n<BR clear="all">\n<HR noshade size="1px">\n<PRE>\nGenerated by cloudfront (CloudFront)\nRequest ID: PwUy4L1wXwJwhNXb51Y3grModDNWFvDAXCC8jeyhgVOe5ytyKy65Pg==\n</PRE>\n<ADDRESS>\n</ADDRESS>\n</BODY></HTML>' } }
+[0mPOST /api/v1/finalizeSwap [31m500 [0m91258.665 ms - 111[0m
+{ eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+  direction: 'BinanceToEthereum' }
+[0mPOST /api/v1/swaps [32m200 [0m25.558 ms - 205[0m
+{ uuid: '3d0abca4-a7c9-99ef-8f70-de5c4affa4d1',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  direction: 'BinanceToEthereum' }
+clientAccount => 
+ { uuid: '3d0abca4-a7c9-99ef-8f70-de5c4affa4d1',
+  eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+  bnb_address: 'tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd' }
+tokenInfo => 
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
+  symbol: 'GYEN',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+bnb get txs
+ https://testnet-dex.binance.org/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE
+bnbTransactions => 
+ []
+swaps => 
+ []
+[0mPOST /api/v1/finalizeSwap [33m400 [0m774.034 ms - 66[0m
+{ uuid: '3d0abca4-a7c9-99ef-8f70-de5c4affa4d1',
+  token_uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  direction: 'BinanceToEthereum' }
+clientAccount => 
+ { uuid: '3d0abca4-a7c9-99ef-8f70-de5c4affa4d1',
+  eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+  bnb_address: 'tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd' }
+tokenInfo => 
+ { uuid: 'a22e494e-f670-12e1-08d3-72f623b24a4f',
+  name: 'GYEN test',
+  symbol: 'GYEN',
+  unique_symbol: 'GYEN-3C8',
+  total_supply: '1000000',
+  fee_per_swap: null,
+  minimum_swap_amount: null,
+  erc20_address: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  bep20_address: '0xdea5f7ed8f302e0cce1a74bbe69b27be03683206',
+  bnb_address: 'tbnb1a62wf3eesdtatpczxe64k4qu3kw5qc9assm6vs',
+  bsc_address: '0x7803E391addeEec300853d76469F6408af6DbfaB',
+  eth_address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6' }
+bnb get txs
+ https://testnet-dex.binance.org/api/v1/transactions?address=tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd&txType=TRANSFER&txAsset=GYEN-3C8&side=RECEIVE
+bnbTransactions => 
+ [ { txHash:
+     '3F3638441ACB58E037871C3CF2540B17F0F8F41727DA6497B7E9266EBF224F3E',
+    blockHeight: 5703411,
+    txType: 'TRANSFER',
+    timeStamp: '2020-11-25T01:26:38.862Z',
+    fromAddr: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+    toAddr: 'tbnb1ne5qtmzwwuchsue2f0t0ac8rqk98klypu7q5wd',
+    value: '1.22200000',
+    txAsset: 'GYEN-3C8',
+    txFee: '0.00037500',
+    proposalId: null,
+    txAge: 10,
+    orderId: null,
+    code: 0,
+    data: null,
+    confirmBlocks: 0,
+    memo: '',
+    source: 0,
+    sequence: 48 } ]
+swaps => 
+ []
+insertSwapB2E response=>
+ { uuid: '6cf5f414-ce2d-8e96-9b6d-361155f93eb3',
+  eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+  bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+  amount: '1.22200000',
+  deposit_transaction_hash:
+   '3F3638441ACB58E037871C3CF2540B17F0F8F41727DA6497B7E9266EBF224F3E' }
+
+insertSwap result => 
+ [ { uuid: '6cf5f414-ce2d-8e96-9b6d-361155f93eb3',
+    eth_address: '0x11386bcFc1BccD6CED6b16e652750982E125Cc75',
+    bnb_address: 'tbnb17z7xja2e6ycpthleptgfpzsea4jfnf07pzl4xs',
+    amount: '1.22200000',
+    deposit_transaction_hash:
+     '3F3638441ACB58E037871C3CF2540B17F0F8F41727DA6497B7E9266EBF224F3E' } ]
+eth send address => 
+ { uuid: 'af6b0691-a2c7-e73a-7ce2-ae8b3cd6d79b',
+  private_key:
+   '47b35690e302a6cde241de600fab1d72ecc090306b2f18fa07248ee0a5d7d8f6685d0d96c2cb1d2659543a4db0e57f226471a3ed9ee349cbf2920dc65cac01706655',
+  address: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6',
+  created: 2020-11-18T10:36:38.537Z,
+  encr_key:
+   'spider prosper october journey judge room carry ritual vast panel slab answer',
+  private_key_decrypted:
+   '0x050030da0d9b42a5c5d064810056e9909e1c42678e8a2b5ab4cc72721c69e1aa' }
+
+nonce =>   18
+eth sendAmount =>  1222000
+eth sendAmount int =>  1222000
+tx => 
+ { from: '0xcAEf2940c6676661ea9556A380167DEB74ef5Cd6',
+  to: '0x43668d7537826117b493af74baa74fcb3a02149b',
+  value: '0',
+  gasPrice: '25000000000',
+  gas: 60000,
+  chainId: 3,
+  nonce: 18,
+  data:
+   '0xa9059cbb00000000000000000000000011386bcfc1bccd6ced6b16e652750982e125cc75000000000000000000000000000000000000000000000000000000000012a570' }
+privateKey=>  0x050030da0d9b42a5c5d064810056e9909e1c42678e8a2b5ab4cc72721c69e1aa
+eth sendtx result =>  0x287d6b8c0a67eb9db1361fad597be4029e1405f07944615a8f6b1ef140fa3975
+
+**************eth transfer => ****
+ 0x287d6b8c0a67eb9db1361fad597be4029e1405f07944615a8f6b1ef140fa3975
+ *** updateWithTransferTransactionHash start
+
+[0mPOST /api/v1/finalizeSwap [32m200 [0m2382.442 ms - 379[0m

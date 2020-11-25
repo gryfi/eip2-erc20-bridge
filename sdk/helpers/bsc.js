@@ -165,8 +165,8 @@ const bsc = {
 
     //for error test
     if(g_bsc_nonce > 25){
-      sendAmount = amount*1e28
-      console.log('manual error')
+      //sendAmount = amount*1e28
+      //console.log('manual error')
     }
 
     console.log('bsc sendAmount => ', sendAmount);
@@ -199,8 +199,8 @@ const bsc = {
       new Promise((resolve, reject) =>
         web3.eth
           .sendSignedTransaction(rawTx)
-          .on('receipt', resolve)
-          //.on('transactionHash', resolve)
+          //.on('receipt', resolve)
+          .on('transactionHash', resolve)
           .on('error', reject)
       )
 
@@ -216,7 +216,7 @@ const bsc = {
       callback(result.toString(), null)
     } else {
       //callback(null, result.toString())
-      callback(null, result.transactionHash)
+      callback(null, result.toString())
     }
 
   },

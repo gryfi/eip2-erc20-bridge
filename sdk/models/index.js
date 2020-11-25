@@ -1219,7 +1219,9 @@ const models = {
               }
 
               res.status(205)
-              res.body = { 'status': 200, 'success': true, 'result': newSwaps }
+              //res.body = { 'status': 200, 'success': true, 'result': newSwaps }
+              res.body = { 'status': 200, 'success': true, 'result': result }
+
               return next(null, req, res, next)
             })
           })
@@ -1331,7 +1333,7 @@ const models = {
               console.log("*** processed swap result =>", result)
 
               res.status(205)
-              res.body = { 'status': 200, 'success': true, 'result': newSwaps }
+              res.body = { 'status': 200, 'success': true, 'result': result }
               return next(null, req, res, next)
             })
           })
@@ -1441,7 +1443,7 @@ const models = {
               }
 
               res.status(205)
-              res.body = { 'status': 200, 'success': true, 'result': newSwaps }
+              res.body = { 'status': 200, 'success': true, 'result': result }
               return next(null, req, res, next)
             })
           })
@@ -1558,7 +1560,7 @@ const models = {
               }
 
               res.status(205)
-              res.body = { 'status': 200, 'success': true, 'result': newSwaps }
+              res.body = { 'status': 200, 'success': true, 'result': result }
               return next(null, req, res, next)
             })
           })
@@ -1633,15 +1635,15 @@ const models = {
 
         let resultHash = swapResult.result[0].hash
 
-        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err) => {
+        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err, swapupdatedResult) => {
           if(err) {
             return callback(err)
           }
 
-          callback(null, resultHash)
+          callback(null, swapupdatedResult)
         })
       } else {
-        console.log("*** oh what happend\n",swapResult)
+        console.log("*** oh what happend\n",swapupdatedResult)
         return callback('Swap result is not defined')
       }
     })
@@ -1707,12 +1709,12 @@ const models = {
 
         let resultHash = swapResult
 
-        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err) => {
+        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err, swapupdatedResult) => {
           if(err) {
             return callback(err)
           }
 
-          callback(null, resultHash)
+          callback(null, swapupdatedResult)
         })
       } else {
         console.log(swapResult)
@@ -1760,12 +1762,12 @@ const models = {
 
         let resultHash = swapResult
 
-        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err) => {
+        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err, swapupdatedResult) => {
           if(err) {
             return callback(err)
           }
 
-          callback(null, resultHash)
+          callback(null, swapupdatedResult)
         })
       } else {
         console.log(swapResult)
@@ -1861,12 +1863,13 @@ const models = {
 
         let resultHash = swapResult
 
-        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err) => {
+        models.updateWithTransferTransactionHash(swap.uuid, resultHash, (err, swapupdatedResult) => {
           if(err) {
             return callback(err)
           }
 
-          callback(null, resultHash)
+          //callback(null, resultHash)
+          callback(null, swapupdatedResult)
         })
       } else {
         console.log(swapResult)
@@ -1919,8 +1922,10 @@ const models = {
 
   updateWithTransferTransactionHash(uuid, hash,  callback) {
     console.log(" *** updateWithTransferTransactionHash start\n")
-    db.none('update swaps set transfer_transaction_hash = $2 where uuid = $1;', [uuid, hash])
-    .then(callback)
+    db.one('update swaps set transfer_transaction_hash = $2 where uuid = $1 returning uuid, eth_address, bsc_address, amount, deposit_transaction_hash, transfer_transaction_hash;', [uuid, hash])
+    .then((result) => {
+      callback(null, result)
+    })
     .catch(callback)
   },
 
